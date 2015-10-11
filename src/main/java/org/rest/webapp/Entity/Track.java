@@ -1,4 +1,4 @@
-package org.rest.webapp;
+package org.rest.webapp.Entity;
 
 /**
  * Created by Ivan on 10/8/2015.
