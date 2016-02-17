@@ -9,25 +9,16 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by Ivan on 10/8/2015.
+ * Created by Ivan on 2/16/2016.
  */
 @Entity
 @Table
-public class Poem {
+public class Draft {
 
     @Id
     @Column
     @GeneratedValue
     private long id;
-
-    @ElementCollection (fetch = FetchType.EAGER)
-    @CollectionTable(joinColumns = @JoinColumn(name="id") )
-    private List<Long> likes = new ArrayList<Long>();
-
-    @ElementCollection (fetch = FetchType.EAGER)
-    @CollectionTable(joinColumns = @JoinColumn(name="id"))
-    @Fetch(value = FetchMode.SUBSELECT)
-    private List<Long> dislikes = new ArrayList<Long>();
 
     @Column
     private String content;
@@ -43,25 +34,17 @@ public class Poem {
     @Fetch(value = FetchMode.SUBSELECT)
     private List<String> hashtags = new ArrayList<String>();
 
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn
     private User user;
 
-    public User getUser() {
-        return this.user;
+    public long getId() {
+        return id;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public void addLike(User user) {
-        this.getLikes().add(user.getId());
-    }
-
-
-    public void addDislike(long id) {
-        this.getDislikes().add(id);
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getContent() {
@@ -80,20 +63,12 @@ public class Poem {
         this.date = date;
     }
 
-    public long getId() {
-        return id;
+    public String getGenre() {
+        return genre;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public List<Long> getLikes() {
-        return likes;
-    }
-
-    public List<Long> getDislikes() {
-        return dislikes;
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 
     public List<String> getHashtags() {
@@ -102,13 +77,5 @@ public class Poem {
 
     public void setHashtags(List<String> hashtags) {
         this.hashtags = hashtags;
-    }
-
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
     }
 }

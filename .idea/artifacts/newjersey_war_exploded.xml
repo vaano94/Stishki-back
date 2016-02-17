@@ -22,6 +22,7 @@
           <element id="library" level="project" name="Maven: com.sun.jersey:jersey-core:1.19" />
           <element id="library" level="project" name="Maven: javax.ws.rs:jsr311-api:1.1.1" />
           <element id="library" level="project" name="Hibernate 4.2.2-4.2.2" />
+          <element id="library" level="module" name="JUnit4" module-name="newjersey" />
           <element id="library" level="project" name="mysql-connector-java-5.1.33-bin" />
         </element>
       </element>

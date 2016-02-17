@@ -6,6 +6,7 @@
       <element id="directory" name="WEB-INF">
         <element id="directory" name="lib">
           <element id="library" level="project" name="Hibernate 4.2.2-4.2.2" />
+          <element id="library" level="module" name="JUnit4" module-name="newjersey" />
           <element id="library" level="project" name="mysql-connector-java-5.1.33-bin" />
         </element>
       </element>
