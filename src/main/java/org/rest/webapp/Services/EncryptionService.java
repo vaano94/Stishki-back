@@ -20,7 +20,7 @@ public class EncryptionService {
             MessageDigest md = MessageDigest.getInstance("MD5");
             bytesOfMessage = md.digest(bytesOfMessage);
             str = new String(bytesOfMessage, StandardCharsets.UTF_8);
-            System.out.println(str);
+            //System.out.println(str);
         } catch (NoSuchAlgorithmException e) {
             System.out.println("WTF NO ALGORITHM");
             e.printStackTrace();

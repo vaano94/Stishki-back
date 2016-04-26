@@ -1,6 +1,7 @@
 package org.rest.webapp.Services;
 
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.rest.webapp.DAO.PoemDAO;
 import org.rest.webapp.Entity.Poem;
 
@@ -50,5 +51,35 @@ public class PoemService {
         return poems;
     }
 
+
+    public List<Poem> getByGenre(String genre) {
+        String[] array = genre.split(" #"); // #one #two
+        poemDAO.openCurrentSessionwithTransaction();
+        List<Poem> poems = poemDAO.getCurrentSession().createCriteria(Poem.class).add(Restrictions.eq("genre", genre)).list();
+        poemDAO.closeCurrentSessionwithTransaction();
+        return poems;
+    }
+
+    public List<Poem> getByHashTag(String hashtags) {
+        String[] array = hashtags.replace("#","").split(" "); // #one #two = ["one"," two"];
+        for (String entry: array) {entry.trim();
+            System.out.println(entry);}
+
+        poemDAO.openCurrentSessionwithTransaction();
+        String query = "from Poem as poem where ";
+        for (int i = 0 ; i<array.length; i++) {
+            if (i==(array.length-1)) {
+                query += ("'" +array[i]+"' in elements(poem.hashtags)");
+            }
+            else {
+                query += ("'" +array[i]+"' in elements(poem.hashtags) and");
+            }
+        }
+        //System.out.println(query);
+
+        List<Poem> poems = poemDAO.getCurrentSession().createQuery(query).list();
+        poemDAO.closeCurrentSessionwithTransaction();
+        return poems;
+    }
 
 }

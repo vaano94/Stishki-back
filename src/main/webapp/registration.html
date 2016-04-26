@@ -1,29 +1,113 @@
-<!DOCTYPE html>
-<html lang="en">
+<html ng-app="app">
 <head>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab&subset=cyrillic,cyrillic-ext,latin' rel='stylesheet' type='text/css'>
+    <!-- Import materialize.css -->
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+    <!-- Icons !-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta charset="UTF-8">
-    <title></title>
 </head>
-
-
 <body>
-<h1>JAX-RS @FormQuery Testing</h1>
+<script src="jquery-2.2.0.min.js"></script>
+  <script src="js/angular.min.js"></script>
+  <script src="js/frontpage.js"></script>
+  <script type="text/javascript" src="js/materialize.min.js"></script>
 
-<form action="rest/register/add" method="post">
-    <p>
-        nickname : <input type="text" name="nickName" />
-    </p>
-    <p>
-        Name : <input type="text" name="firstName" />
-    </p>
-    <p>
-        password : <input type="text" name="password" />
-    </p>
-    <p>
-        email : <input type="text" name="e-mail" />
-    </p>
-    <input type="submit" value="Add User" />
+<!--<upper-navigation></upper-navigation>!-->
+<h1 class="center-align">Регистрация</h1>
+<div class="container" ng-controller="registrationCtrl">
+<form novalidate name="form" ng-model="user" class="css-form">
+        <div class="row" >
+        <div class="row center-align">
+        <div class="input-field col s6 offset-s3">
+            <input id="first_name" type="text" name="firstName" ng-model="user.firstName" required="">
+            <label for="first_name">Ваше имя</label>
+            <br />
+            <span ng-show="form.$submitted || form.firstName.$touched">
+            <span ng-show="form.firstName.$error.required">Имя не должно быть пустым</span>
+        </div>
+        </div>
+        </span>
+
+        <div class="row">
+        <div class="input-field col s6 offset-s3">
+            <input id="last_name" type="text"ng-model="user.nickName" name="nickName" required="">
+            <label for="last_name">Придумайте ник</label>
+            <br />
+            <span  ng-show="form.$submitted || form.nickName.$touched">
+            <span ng-show="form.nickName.$error.required">
+            <div class="left-align">Ник не должен быть пустым</div></span>
+        </div>
+        </div>
+
+
+        <div class="row">
+        <div class="input-field col s6 offset-s3">
+            <input type="email" name="email" id="email" ng-model="user.email" required="">
+            <label for="email">e-mail</label>
+            <br />
+            <div ng-show="form.$submitted || form.email.$touched">
+            <span ng-show="form.email.$error.required">E-mail не должен быть пустым</span>
+            <span ng-show="form.email.$error.email">Адрес введен неправильно</span>
+        </div>
+        </div>
+        </div>
+
+
+
+        <div class="row">
+        <div class="input-field col s6 offset-s3">
+        <input id="password" type="password" name="password" ng-model="user.password" ng-minlength="6" ng-maxlength="20" ng-pattern="/(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/" class="input-xlarge" required="true" />
+        <label for="password">Пароль</label>
+        <span ng-show="!form.password.$error.required && (form.password.$error.minlength || form.password.$error.maxlength) && form.password.$dirty" >Пароль должен состоять из 8-20 символов английского алфавита</span>
+        <span ng-show="!form.password.$error.required && !form.password.$error.minlength && !form.password.$error.maxlength && form.password.$error.pattern && form.password.$dirty">Пароль должен содержать как минимум букву нижнего &amp; верхнего регистра и не алфавитный символ (число или знак).</span>
+        </div>
+        </div>
+
+        <div class="row">
+        <div class="input-field col s6 offset-s3">
+        <input name="passwordConfirm" id="password_c" ng-model="user.passwordConfirm" class="input-xlarge" required="true"
+            type="password" match="user.password" />
+        <label for="password_repeat">Повторите пароль</label>
+            <div ng-show="form.passwordConfirm.$error.mismatch">
+            <!--<span class="msg-error">Email and Confirm Email must match.</span>!-->
+          </div>
+          </div>
+          </div>
+          
+        <!-- <div class="row">
+        <div class="input-field col s6 offset-s3">
+            <input type="password" id="password" name="password" ng-model="user.password" ng-minlength="8" ng-maxlength="20" ng-pattern="/(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/" required  />
+            <span ng-show="form.password.$error.required && form.password.$dirty">Обязательно</span>
+            <span ng-show="!form.password.$error.required && (form.password.$error.minlength || form.password.$error.maxlength) && form.password.$dirty">Пароль должен состоять из 8-20 символов английского алфавита</span>
+            <span ng-show="!form.password.$error.required && !form.password.$error.minlength && !form.password.$error.maxlength && form.password.$error.pattern && form.password.$dirty">Пароль должен содержать как минимум букву нижнего &amp; верхнего регистра и не алфавитный символ (число или знак).</span>
+            <input id="password" type="password" ng-model="user.password">
+            <label for="password">Пароль</label>
+        </div>
+        </div>
+        
+        <div class="row">
+        <div class="input-field col s6 offset-s3">
+            <input type="password" id="password_c" name="password_c" ng-model="user.password_c" valid-password-c required  />
+            <span ng-show="form.password_c.$error.required && form.password_c.$dirty">Пожалуйста, подтвердите пароль.</span>
+            <span ng-show="!form.password_c.$error.required && form.password_c.$error.noMatch && form.password.$dirty">Пароли не совпадают.</span>
+            <label for="password_repeat">Повторите пароль</label>
+        </div>
+        </div> -->
+        
+        <div class="row">
+        <div class="center-align">
+        <button class="btn waves-effect waves-light btn-large" type="submit" name="action" ng-disabled="!form.$valid" ng-click="update(user)">Отправить
+        <i class="material-icons right">send</i>
+        </button>
+        </div>
+        </div>
+    </div>
 </form>
+</div>
+
 
 </body>
 

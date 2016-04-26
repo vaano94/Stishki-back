@@ -1,0 +1,83 @@
+<nav>
+    <div class="nav-wrapper yellow yellow darken-1" ng-controller="navigationCtrl as navctrl" ng-init="init()">
+        <a href="#" class="brand-logo">Stishki</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down yellow darken-1">
+        <li>
+             <div class="nav-wrapper">
+                <form novalidate class="css-form">
+                    <div class="input-field">
+                    <input id="search" type="text" ng-model="hashtags.tags" 
+                    ng-change="send(hashtags.tags)"
+                     required>
+                    <label for="search align-left"><i class="material-icons">search</i></label>
+                    <i class="material-icons">close</i>
+                    </div>
+                </form>
+            </div>
+        </li>
+        <!--ng-change="sendhashtags(hashtags.tags)" !-->
+        
+            <li><a class="blue-grey-text text-darken-3" href="collapsible.html" ng-show="logged">Карта</a></li>
+            <li><a class="blue-grey-text text-darken-3" href="collapsible.html" ng-show="logged">Аудио</a></li>
+            <li><a class="blue-grey-text text-darken-3" href="collapsible.html" ng-show="logged">Черновики</a></li>
+            <li><a class="blue-grey-text text-darken-3" href="registration.html" ng-show="!logged">Регистрация</a></li>
+            <!-- Modal Trigger -->
+            <li><a class="blue-grey-text text-darken-3 modal-trigger" href="#modal1" ng-show="!logged">Войти</a></li>
+            <li><a class="blue-grey-text text-darken-3" ng-show="logged" ng-click="logoutuser()">Выйти</a></li>
+        </ul>
+
+
+   
+    <!-- Modal Login Structure -->
+    <form novalidate ng-model="login" class="css-form">
+    <div class= "row">
+    <div id="modal1" class="modal col s4 offset-s4 blue-grey-text text-darken-3">
+        <div class="modal-content container center-align">
+        <h4>Вход в систему</h4>
+        <h3>     </h3>
+
+            <!-- Nickname Field !-->
+            <div class="row">
+                <div class="input-field">
+                    <label for="login_nick">Ваш ник</label>
+                    <input id="login_nick" type="text" ng-model="login.nickName" name="loginNick" novalidate required="">
+                    <br />
+                    <span ng-show="form.$submitted || form.nickName.$touched">
+                    <span ng-show="form.nickName.$error.required">
+                    <div class="left-align">Ник не должен быть пустым</div>
+                    </span>
+                    </span>
+                </div>
+            </div>
+            <!-- End NickName field !-->
+            <!-- Password field !-->
+            <div class="row">
+                <div class="input-field">
+                    <input id="pass" type="password" name="pass" ng-model="login.password"  novalidate required=""/>
+                    <label for="pass">Пароль</label>
+                </div>
+            </div>
+            <!-- End Password field !-->
+            <!-- Login button !-->
+            <div class="row valign-wrapper">
+                <button class="btn waves-effect waves-light left-align col s4" type="submit" ng-click="loginuser(login)" name="loginBtn">Войти
+                </button>
+                <!-- End Login button !-->
+                <!-- Забыли пароль?!-->
+                <a class="blue-grey-text valign text-darken-3 col s6" href="passwordrecovery.html">Забыли пароль?</a>
+                <!-- End забыли пароль !-->
+            </div>
+        </div>
+       
+       
+
+        
+    </div>
+    <!-- End Row div !-->
+    </div>
+    </form>
+
+    </div>
+
+
+</nav>

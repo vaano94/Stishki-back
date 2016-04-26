@@ -8,12 +8,8 @@ import org.rest.webapp.Entity.User;
 import org.rest.webapp.Services.PoemService;
 import org.rest.webapp.Services.UserService;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -30,7 +26,7 @@ public class PoemChangeService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public String addPoem(String information) {
-        String response= "bad";
+        String response= "BAD";
         try {
             JSONObject result = new JSONObject(information);
             String poemText = result.getString("poem");
@@ -71,7 +67,7 @@ public class PoemChangeService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public String getNewPoems(String s) {
-        String response= "badresult";
+        String response= "BAD";
         try {
                 System.out.println(s);
                 ArrayList<JSONObject> userPoems = new ArrayList<JSONObject>();
@@ -85,7 +81,12 @@ public class PoemChangeService {
                     JSONObject poem = new JSONObject();
                     poem.put("genre", p.getGenre());
                     poem.put("content", p.getContent());
-                    poem.put("hashtags", p.getHashtags().toString());
+                    JSONArray hashtags = new JSONArray();
+                    for (String tag : p.getHashtags()){
+                        hashtags.put(tag);
+                    }
+                    poem.put("hashtags", hashtags);
+                    //poem.put("hashtags", p.getHashtags().toString());
                     poem.put("likes", p.getLikes().size());
                     poem.put("dislikes", p.getDislikes().size());
                     poem.put("author", p.getUser().getNickName());
@@ -144,6 +145,62 @@ public class PoemChangeService {
                 e.printStackTrace();
             }
         return response;
+    }
+
+    @POST
+    @Path("/hashtags")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getPoemsByHashTag(String hashtags) {
+        String response = "BAD";
+        System.out.println(hashtags);
+        JSONObject result = new JSONObject();
+        try {
+
+        JSONObject jsonObject = new JSONObject(hashtags);
+        String hashs = jsonObject.getString("hashtags");
+        PoemService poemService = new PoemService();
+        List<Poem> list = poemService.getByHashTag(hashs);
+        ArrayList<JSONObject> poems = new ArrayList<JSONObject>();
+
+        JSONArray mainArray = new JSONArray();
+
+        String poemNumber = "poem";
+        int count = 0;
+        for (Poem p : list) {
+
+            JSONObject poem = new JSONObject();
+            poem.put("genre", p.getGenre());
+            poem.put("content", p.getContent());
+            JSONArray poemhashtags = new JSONArray();
+            for (String tag : p.getHashtags()){
+                poemhashtags.put(tag);
+            }
+            poem.put("author", p.getUser().getNickName());
+            poem.put("hashtags", poemhashtags);
+            poem.put("likes", p.getLikes().size());
+            poem.put("dislikes", p.getDislikes().size());
+
+            poems.add(poem);
+            poemNumber = poemNumber + count;
+
+            mainArray.put(poem);
+            }
+            result.put("result", "OK");
+            result.put("poems",poems);
+            return result.toString();
+        }
+        catch(JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        try {
+            result.put("result","BAD");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return result.toString();
     }
 
 

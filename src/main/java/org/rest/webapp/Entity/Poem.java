@@ -13,6 +13,9 @@ import java.util.List;
  */
 @Entity
 @Table
+@org.hibernate.annotations.Entity(
+        dynamicUpdate = true
+)
 public class Poem {
 
     @Id
@@ -21,7 +24,7 @@ public class Poem {
     private long id;
 
     @ElementCollection (fetch = FetchType.EAGER)
-    @CollectionTable(joinColumns = @JoinColumn(name="id") )
+    @CollectionTable(joinColumns = @JoinColumn(name="id"))
     private List<Long> likes = new ArrayList<Long>();
 
     @ElementCollection (fetch = FetchType.EAGER)

@@ -5,18 +5,14 @@ import org.codehaus.jettison.json.JSONObject;
 import org.rest.webapp.Entity.User;
 import org.rest.webapp.Services.EncryptionService;
 import org.rest.webapp.Services.UserService;
-import sun.misc.BASE64Encoder;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
-/**
- * Created by Ivan on 10/18/2015.
- */
+
 @Path("/registerjson")
 public class RegisterJsonService {
     @POST
@@ -38,13 +34,18 @@ public class RegisterJsonService {
         UserService userService = new UserService();
         User user = new User();
 
+        JSONObject response = new JSONObject();
+        response.put("type", "registration");
+
         // checks if email and nick are already created!
         for (User s : userService.getAll()) {
             if (s.getNickName().equals(nickName)) {
-                return "NickNameIssue";
+                response.put("result", "nicknameIssue");
+                return response.toString();
             }
             if (s.getEmail().equals(email)) {
-                return "EmailIssue";
+                response.put("result","emailIssue");
+                return response.toString();
             }
         }
         // generate MD5 hash for password
@@ -59,7 +60,9 @@ public class RegisterJsonService {
 
         userService.persist(user);
         System.out.println(obj2);
-        return "OK";
+
+        response.put("result", "OK");
+        return response.toString();
 
     }
 
