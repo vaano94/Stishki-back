@@ -8,7 +8,23 @@ var token = "";
 var poemFromHash;
 var globalLogged = false;
 
-app.controller('dataFetchController', function($scope, $http) {
+app.service('LoginService', function(){
+	this.logged = false;
+
+	this.setLogged = function() {
+		this.logged = true;
+		console.log(this.logged);
+	}
+	this.setUnlogged = function() {
+		this.logged = false;
+		console.log(this.logged);
+	}
+	this.getLogStatus = function() {
+		return this.logged;
+	}
+});
+
+app.controller('dataFetchController', function($scope, $http, LoginService) {
 	var poems = {};
 	$scope.PoemData = {};
 
@@ -33,6 +49,13 @@ app.controller('dataFetchController', function($scope, $http) {
         		console.log($scope.PoemData)});
 
 		console.log('Бля')})
+
+	$scope.ctrlLoggedStatus = function() {
+		$scope.a = LoginService.getLogStatus();
+		console.log($scope.a);
+		return LoginService.getLogStatus();
+	}
+
 
 	this.getByHash = function(tag) {
 		console.log(tag);
@@ -126,7 +149,7 @@ app.directive("upperNavigation", function($rootScope){
 		}
     };
   })
-	.controller("navigationCtrl", function($scope,$http,$rootScope){
+	.controller("navigationCtrl", function($scope,$http,$rootScope,LoginService){
 
 		$scope.$on('navClick', function(ev,data) {console.log(data)})
 	
@@ -155,14 +178,13 @@ app.directive("upperNavigation", function($rootScope){
 		$scope.showlogged = function() {
 			$scope.logged = true;
 			globalLogged = true;
-			console.log("Show logged is: " + $scope.logged);
-			console.log("Show globallogged is: " + globalLogged);
+			LoginService.setLogged();
+			
 		}
 		$scope.showunlogged = function() {
 			$scope.logged = false;
 			globalLogged = false;
-			console.log("Show unlogged is: " + globalLogged);
-			console.log("Show globalunlogged is: " + $scope.logged);
+			LoginService.setUnlogged();
 		}
 
 		$scope.loginuser = function(login) {
