@@ -23,7 +23,7 @@ public class GetPoemsByUserTest {
             long time = (System.currentTimeMillis()/1000L)+259200;
 
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("token", "weDh8/jq4Pk=1449512438");
+            jsonObject.put("token", "aGV5aGV51446810433");
 
             URL url = new URL("http://localhost:8080/poem/getbyuser");
 

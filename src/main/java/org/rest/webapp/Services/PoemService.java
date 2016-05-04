@@ -33,17 +33,17 @@ public class PoemService {
     }
     public Poem getById(long id) {
         poemDAO.openCurrentSessionwithTransaction();
-        Poem poem = (Poem) poemDAO.getCurrentSession().load(Poem.class, id);
+        Poem poem = (Poem) poemDAO.getCurrentSession().createCriteria(Poem.class).add(Restrictions.eq("id",id)).uniqueResult();
         poemDAO.closeCurrentSessionwithTransaction();
         return poem;
     }
+
     public List<Poem> getAll() {
         poemDAO.openCurrentSessionwithTransaction();
         List<Poem> poems = poemDAO.getCurrentSession().createCriteria(Poem.class).list();
         poemDAO.closeCurrentSessionwithTransaction();
         return poems;
     }
-
     public List<Poem> getNewOnes() {
         poemDAO.openCurrentSessionwithTransaction();
         List<Poem> poems = poemDAO.getCurrentSession().createCriteria(Poem.class).addOrder(Order.desc("id")).setMaxResults(40).list();
@@ -81,5 +81,6 @@ public class PoemService {
         poemDAO.closeCurrentSessionwithTransaction();
         return poems;
     }
+
 
 }

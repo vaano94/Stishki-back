@@ -25,11 +25,12 @@ public class Poem {
 
     @ElementCollection (fetch = FetchType.EAGER)
     @CollectionTable(joinColumns = @JoinColumn(name="id"))
+    @Fetch(FetchMode.SELECT)
     private List<Long> likes = new ArrayList<Long>();
 
     @ElementCollection (fetch = FetchType.EAGER)
     @CollectionTable(joinColumns = @JoinColumn(name="id"))
-    @Fetch(value = FetchMode.SUBSELECT)
+    @Fetch(FetchMode.SELECT)
     private List<Long> dislikes = new ArrayList<Long>();
 
     @Column
@@ -58,8 +59,8 @@ public class Poem {
         this.user = user;
     }
 
-    public void addLike(User user) {
-        this.getLikes().add(user.getId());
+    public void addLike(long id) {
+        getLikes().add(id);
     }
 
 

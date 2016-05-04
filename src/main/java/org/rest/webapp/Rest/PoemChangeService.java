@@ -86,8 +86,8 @@ public class PoemChangeService {
                         hashtags.put(tag);
                     }
                     poem.put("hashtags", hashtags);
-                    //poem.put("hashtags", p.getHashtags().toString());
                     poem.put("likes", p.getLikes().size());
+                    poem.put("id", p.getId());
                     poem.put("dislikes", p.getDislikes().size());
                     poem.put("author", p.getUser().getNickName());
                     userPoems.add(poem);
@@ -125,6 +125,7 @@ public class PoemChangeService {
                 JSONObject poem = new JSONObject();
                 poem.put("genre", p.getGenre());
                 poem.put("content", p.getContent());
+                poem.put("id", p.getId());
                 poem.put("hashtags", p.getHashtags().toString());
                 poem.put("likes", p.getLikes().size());
                 poem.put("dislikes", p.getDislikes().size());
@@ -176,6 +177,7 @@ public class PoemChangeService {
             for (String tag : p.getHashtags()){
                 poemhashtags.put(tag);
             }
+            poem.put("id", p.getId());
             poem.put("author", p.getUser().getNickName());
             poem.put("hashtags", poemhashtags);
             poem.put("likes", p.getLikes().size());
@@ -202,6 +204,107 @@ public class PoemChangeService {
         }
         return result.toString();
     }
+
+    @POST
+    @Path("/like")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String setLike(String data) {
+        JSONObject result = new JSONObject();
+
+        try {
+            JSONObject clientData = new JSONObject(data);
+            UserService userService = new UserService();
+            System.out.println(data);
+            // If no token is present - kick out of method
+            if (clientData.getString("token").equals("")) {
+                result.put("result","BAD");
+                return result.toString();
+            }
+            else {
+                PoemService poemService = new PoemService();
+                Poem poem = poemService.getById(clientData.getInt("id"));
+                System.out.println(poem.getContent());
+                //Check if token is already sent by a user
+                long userId = userService.getByToken(clientData.getString("token")).getId();
+                System.out.println(poem.getLikes());
+                System.out.println(poem.getLikes().size());
+                // if Likes Contain user id, it means we should decrement it e.g delete entry
+                if (poem.getLikes().contains(userId)) {
+                    result.put("result", "decrement");
+                    poem.getLikes().remove(userId);
+                    poemService.update(poem);
+                }
+                // If token is not sent, set like
+                else {
+                    result.put("result","increment");
+                    poem.addLike(userService.getByToken(clientData.getString("token")).getId());
+                    poemService.update(poem);
+                }
+
+                //poem.addLike(userService.getByToken(clientData.getString("token")));
+
+            }
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return result.toString();
+    }
+
+
+    @POST
+    @Path("/dislike")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String setDislike(String data) {
+        JSONObject result = new JSONObject();
+
+        try {
+            JSONObject clientData = new JSONObject(data);
+            UserService userService = new UserService();
+            // If no token is present - kick out of method
+            if (clientData.getString("token").equals("")) {
+                result.put("result","BAD");
+                return result.toString();
+            }
+            else {
+                PoemService poemService = new PoemService();
+                Poem poem = poemService.getById(clientData.getInt("id"));
+                System.out.println(poem.getContent());
+                //Check if token is already sent by a user
+                long userId = userService.getByToken(clientData.getString("token")).getId();
+                List<Long> dislikes = poem.getDislikes();
+                System.out.println(dislikes);
+                System.out.println(dislikes.size());
+                // if Likes Contain user id, it means we should decrement it e.g delete entry
+                if (dislikes.contains(userId)) {
+                    result.put("result", "decrement");
+                    dislikes.remove(userId);
+                    poemService.update(poem);
+                }
+                // If token is not sent, set like
+                else {
+                    result.put("result","increment");
+                    dislikes.add(userId);
+                    poemService.update(poem);
+                }
+
+                //poem.addLike(userService.getByToken(clientData.getString("token")));
+
+            }
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return result.toString();
+
+    }
+
 
 
 }

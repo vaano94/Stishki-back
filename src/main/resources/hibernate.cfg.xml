@@ -13,6 +13,8 @@
         <property name="show_sql">true</property>
         <property name="hbm2ddl.auto">update</property>
         <property name="current_session_context_class">thread</property>
+        <!-- Newly added property !-->
+        <!--<property name="hibernate.enable_lazy_load_no_trans">true</property>-->
 
         <mapping class="org.rest.webapp.Entity.User"/>
         <mapping class="org.rest.webapp.Entity.Poem"/>

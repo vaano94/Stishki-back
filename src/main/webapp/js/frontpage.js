@@ -24,7 +24,83 @@ app.service('LoginService', function(){
 	}
 });
 
-app.controller('dataFetchController', function($scope, $http, LoginService) {
+app.factory('PoemDataFactory', function() {
+
+});
+
+app.service('LikeService', function($http){
+
+	this.answer = "something";
+
+
+	this.addLike = function(id) {
+
+		var storagetoken = localStorage['token'] || "";
+   		console.log(storagetoken);
+   		if (storagetoken=="") {
+   			Materialize.toast('Чтобы поставить лайк, войдите в систему', 4500);
+		}
+		else {
+			details = {"token": storagetoken, "id": id};
+			var promise = $http.post("http://localhost:8080/rest/poem/like", details)
+			.then(function(response) {
+				respond = response.data;
+				jsonresult = respond.result;
+				if (jsonresult=="increment") {
+					return respond.result;
+					return this.answer;
+				}
+				else if (jsonresult=="decrement") {
+					this.answer = "decement";
+					return respond.result;
+					return this.answer;
+				}
+				else if (jsonresult=="BAD") {
+					this.answer = "BAD";
+					return respond.result;
+					return this.answer;
+				}
+
+			});
+			return promise;
+		}
+	}
+
+
+	this.addDislike = function(id) {
+
+		var storagetoken = localStorage['token'] || "";
+   		console.log(storagetoken);
+   		if (storagetoken=="") {
+   			Materialize.toast('Чтобы поставить дизлайк, войдите в систему', 4500);
+   		}
+		else {
+			details = {"token": storagetoken, "id": id};
+			var promise = $http.post("http://localhost:8080/rest/poem/dislike", details)
+			.then(function(response) {
+				respond = response.data;
+				jsonresult = respond.result;
+				if (jsonresult=="increment") {
+					return respond.result;
+				}
+				else if (jsonresult=="decrement") {
+					this.answer = "decement";
+					return respond.result;
+				}
+				else if (jsonresult=="BAD") {
+					this.answer = "BAD";
+					return respond.result;
+				}
+
+			});
+			return promise;
+		}
+	}
+
+});
+
+
+app.controller('dataFetchController', function($scope, $http, LoginService, LikeService) {
 	var poems = {};
 	$scope.PoemData = {};
 
@@ -123,78 +199,69 @@ app.controller('dataFetchController', function($scope, $http, LoginService) {
     	});	
 	}
 
-		$scope.$watch(
+		/*$scope.$watch(
             "PoemData",
                 function() {
                 console.log($scope.PoemData);
 				}	
-            );		
+            );	*/	
 
+	$scope.updateLike = function(id, likes, index) {
 
-});
-
-/*// проверка пароля
-app.directive('match', function($parse,$location) {
-  return {
-    require: 'ngModel',
-    link: function(scope, elem, attrs, ctrl) {
-      scope.$watch(function() {        
-        return $parse(attrs.match)(scope) === ctrl.$modelValue;
-      }, function(currentValue) {
-        ctrl.$setValidity('mismatch', currentValue);
-      });
-    }
-  };
-});*/
-
-
-/*app.controller('registrationCtrl', function($scope,$http,$timeout) {
-	$scope.master = {};
-	$scope.regForm = angular.copy($scope.form);
-	var data = {};
-	this.respond = "";
-	$scope.update=function(user) {
-		$scope.master=angular.copy(user);
-		data = $scope.master;
-		var registerJson = {"nickName": data.nickName,
-						"password": data.password,
-						"firstName":data.firstName,
-						"email":data.email,
-						"type":"user"};
-	$http.post("http://localhost:8080/rest/registerjson/add", registerJson)
-	.then(function(response) {
-		respond = JSON.stringify(response.data);
-		//alert(respond.toString());
-		var result = JSON.parse(respond);
-		if (result.result=="OK") {
-			 Materialize.toast('Регистрация успешна!', 3000, 'rounded');
-			 $("#first_name").val('');
-			 $("#last_name").val('');
-			 $("#email").val('');
-			 $("#password").val('');
-			 $("#password_C").val('');
-
-			 $timeout(function() {window.location.replace("/page.html");}, 4000);
-			 //window.location.replace("/page.html");
-    		 //$scope.$apply();       
-
+		selector = "#like"+id;
+		//$scope.PoemData[index].author = "ОООООООООООО";
+		LikeService.addLike(id).then(function(d) {
+		console.log('Return after promise: ' + d);
+		if (d == "increment") {
+			// Вот вместо этого апдейт scope.PoemData
+			$scope.PoemData[index].likes += 1;
+			//заблочить поле дизлайка
+			$("#dislike"+id).attr("disabled", "disabled");
+			//fieldtext = likes+1;
+			//$(selector).text(fieldtext);
+			//console.log(d);
 		}
-		else {
-			if (result.result=="nicknameIssue") {
-			$("#last_name").val('');
-			$("#password_c").val('');
-			Materialize.toast('Пользователь с таким ником уже существует', 4500);
-			}
-			if (result.result=="emailIssue") {
-			$("#email").val('');
-			$("#password_c").val('');
-			Materialize.toast('Пользователь с таким email уже существует', 4500);
-			}
-				
+		else if (d == "decrement") {
+			$scope.PoemData[index].likes -= 1;
+			$("#dislike"+id).removeAttr("disabled");
+			//$(selector).text(fieldtext);
+			//console.log(d);
 		}
+		else if (d == "BAD") {
+			console.log(d);
+		};
+		});
+ 	};
+
+ 	$scope.updateDislike = function(id, likes,index) {
+
+		selector = "#dislike"+id;
+		//$scope.PoemData[index].author = "ОООООООООООО";
+		LikeService.addDislike(id).then(function(d) {
+		console.log('Return after promise: ' + d);
+		if (d == "increment") {
+			// Вот вместо этого апдейт scope.PoemData
+			$scope.PoemData[index].dislikes += 1;
+			//заблочить поле дизлайка
+			
+			//fieldtext = likes+1;
+			//$(selector).text(fieldtext);
+			//console.log(d);
+		}
+		else if (d == "decrement") {
+			$scope.PoemData[index].dislikes -= 1;
+			//$(selector).text(fieldtext);
+			//console.log(d);
+		}
+		else if (d == "BAD") {
+			console.log(d);
+		};
+		});
+		
+	};
+
 	});
-	}
 
-});*/
+
 
 })();
