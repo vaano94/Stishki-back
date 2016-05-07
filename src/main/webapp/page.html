@@ -7,6 +7,9 @@
     <!-- Icons !-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
+    <link type="text/css" rel="stylesheet" href="css/ngDialog.css">
+    <link type="text/css" rel="stylesheet" href="css/ngDialog-theme-default.css">
+
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta charset="UTF-8">
@@ -15,10 +18,17 @@
 
   <!-- Import Jquery !-->
   <script src="jquery-2.2.0.min.js"></script>
+  <!-- Angular library !-->
   <script src="js/angular.min.js"></script>
+  <!-- Modal service library !-->
+  <script src="js/ngDialog.js"></script>
+
+
+  <!-- Other controllers !-->
   <script src="js/frontpage.js"></script>
   <script src="js/uppernavigationcontroller.js"></script>
   <script src="js/registrationcontroller.js"></script>
+  <script src="js/poemchoosecontroller.js"></script>
   <script type="text/javascript" src="js/materialize.min.js"></script>
 
 
@@ -50,7 +60,9 @@
         </div>
         <!-- Card action !-->
         <div class="card-action yellow lighten-4">
+          <i class="material-icons">thumb_up</i>
           <a href="#" ng-click="updateLike(x.id,x.likes,$index)" ng-model="likes.id" id="like{{x.id}}">{{x.likes}}</a>
+          <i class="material-icons">thumb_down</i>
           <a href="#" ng-click="updateDislike(x.id,x.dislikes,$index)" ng-model="dislikes.id" id="dislike{{x.id}}">{{x.dislikes}}</a>
           <!-- <h5 class="right-align">{{  x.hashtags  }}</h5> -->
             <span ng-repeat="tag in x.hashtags" style="float:right">
@@ -63,7 +75,7 @@
     <!-- End container !-->
     </div>
 
-	 <div class="fixed-action-btn" ng-show="ctrlLoggedStatus()" style="bottom: 45px; right: 24px;">
+	 <div class="fixed-action-btn" ng-click="clickToOpen()" ng-show="ctrlLoggedStatus()" style="bottom: 45px; right: 24px;">
     <a class="btn-floating btn-large red">
       <i class=" material-icons">mode_edit</i>
     </a>
@@ -71,6 +83,7 @@
 
 <!-- End controller !-->
   </div>
+
 
   </body>
 

@@ -1,6 +1,6 @@
 (function() {
 
-var app = angular.module('app', []);
+var app = angular.module('app', ['ngDialog']);
 // determines whether user is logged in system
 // token field
 var token = "";
@@ -100,9 +100,13 @@ app.service('LikeService', function($http){
 });
 
 
-app.controller('dataFetchController', function($scope, $http, LoginService, LikeService) {
+app.controller('dataFetchController', function($scope, $http, LoginService, LikeService, ngDialog) {
 	var poems = {};
 	$scope.PoemData = {};
+	
+	 $scope.clickToOpen = function () {
+        ngDialog.open({ template: 'poemchoose.html', className: 'ngdialog-theme-default', width:'70%' });
+    };
 
 	$scope.$on('navClick', function(ev,data) {
 
@@ -150,7 +154,7 @@ app.controller('dataFetchController', function($scope, $http, LoginService, Like
         		toParse[i].content = toParse[i].content.split("\n");
         		};
         		$scope.PoemData = toParse; 
-	});
+			});
 		};
 
 	this.getData = function() {
@@ -159,9 +163,6 @@ app.controller('dataFetchController', function($scope, $http, LoginService, Like
     	.then(function(response) {
     	poems = response.data;
         $scope.PoemData = response.data;
-
-
-
         for (var i = 0; i < poems.length; i++) {
         	poems[i].content = poems[i].content.split("\n");
         };
@@ -172,8 +173,6 @@ app.controller('dataFetchController', function($scope, $http, LoginService, Like
   	$scope.$on('navClick', function(ev,data) {console.log(data)})
 
 	this.retrievePoems = function() {
-		//poems = response.data;
-		//$scope.PoemData = poemservice.getPoems();
 		$scope.PoemData = poemFromHash;
 		poems = $scope.PoemData;
 		for (var i = 0; i < poems.length; i++) {
@@ -199,33 +198,22 @@ app.controller('dataFetchController', function($scope, $http, LoginService, Like
     	});	
 	}
 
-		/*$scope.$watch(
-            "PoemData",
-                function() {
-                console.log($scope.PoemData);
-				}	
-            );	*/	
 
 	$scope.updateLike = function(id, likes, index) {
 
 		selector = "#like"+id;
-		//$scope.PoemData[index].author = "ОООООООООООО";
 		LikeService.addLike(id).then(function(d) {
 		console.log('Return after promise: ' + d);
 		if (d == "increment") {
 			// Вот вместо этого апдейт scope.PoemData
 			$scope.PoemData[index].likes += 1;
 			//заблочить поле дизлайка
-			$("#dislike"+id).attr("disabled", "disabled");
-			//fieldtext = likes+1;
-			//$(selector).text(fieldtext);
-			//console.log(d);
+			dislikeid= "#dislike"+id;
+			$(dislikeid).prop( "disabled", true );
 		}
 		else if (d == "decrement") {
 			$scope.PoemData[index].likes -= 1;
-			$("#dislike"+id).removeAttr("disabled");
-			//$(selector).text(fieldtext);
-			//console.log(d);
+		
 		}
 		else if (d == "BAD") {
 			console.log(d);
@@ -242,16 +230,9 @@ app.controller('dataFetchController', function($scope, $http, LoginService, Like
 		if (d == "increment") {
 			// Вот вместо этого апдейт scope.PoemData
 			$scope.PoemData[index].dislikes += 1;
-			//заблочить поле дизлайка
-			
-			//fieldtext = likes+1;
-			//$(selector).text(fieldtext);
-			//console.log(d);
 		}
 		else if (d == "decrement") {
 			$scope.PoemData[index].dislikes -= 1;
-			//$(selector).text(fieldtext);
-			//console.log(d);
 		}
 		else if (d == "BAD") {
 			console.log(d);
