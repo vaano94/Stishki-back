@@ -1,65 +1,59 @@
-<div class = "row" overflow="scroll">
+<div class="row" overflow="scroll" ng-controller="PoemDescriptionController as poemctrl" ng-init="doStuff()">
 
-      <div class="col s12 m12">
-        <div class="card-panel lime lighten-5">
-
-        <!-- General description section!-->
-        <div class="section">
-        <h3 class="center-align">Что такое пирожок</h3>
-        <p>Что такое пирожок</p>
-          <span class="flow-text">Стишок-пирожок - это четверостишие, написанное четырёхстопным ямбом, строчными буквами, без знаков препинания, с отсутствием явных рифм. 
-			Количество слогов по строкам: 9-8-9-8
-          </span>
+<div class="col s12">
+        <div class="card-panel text-darken-3 yellow lighten-3">
         
-      	</div>
-      	 <!--END  General description section!-->
-
-      	 <div class="divider"></div>
-
-		<!-- Syllable section!-->
-		<div class="section">
-		<h3 class="center-align">Структура пирожка</h3>
-        <p>Структура пирожка</p>
-          <span class="flow-text">
-			Количество слогов по строкам: 9-8-9-8
-          </span>
+        <div class="section">
+        <h3 class="center-align">Что это за стих?</h3>
+		<p class="flow-text">{{poeminfo.shortDes}}</p>
 		</div>
-		<!--END Syllable section!-->
+
+		<div class="divider"></div>
+		
+		<div class="section center-align">
+        <h3 class="center-align">Слоги в стихе</h3>
+        <img class="center-align" src="{{poeminfo.path}}">
+		<p class="flow-text center-align">{{poeminfo.sylRules}}</p>
+		</div>
 
 		<div class="divider"></div>
 
-		<!-- Writing rules section !-->
-       	<div class="section">
-        <h3 class="center-align">Правила написания пирожков</h3>
-        <p>Правила написания пирожков</p>
-          <span class="flow-text">
-          	1. Выуживаем из глубин подсознания оригинальную идею. Идеи, выуженные из глубин Башорга, анекдот.ру и подобных им источников, оригинальными не считаются.
-			2. Добавляем к идее перцу и соли по вкусу. Соль лучше добавлять в конец стишка-пирожка.
-			3. Отсекаем от нашей идеи всё лишнее, чтобы она уместилась в 34 слога.
-			4. Могучим четырёхстопным ямбом втаптываем получившиеся слоги в четыре строки. В первую и третью строки щедро сыпем по девять слогов, во вторую и четвертую - по восемь. Ни в коем случае не наоборот.
-			5. Удаляем из почти готового стишка-пирожка случайно затесавшиеся туда заглавные буквы. Определить их просто: ЗАГЛАВНЫЕ БУКВЫ всегда больше, чем строчные.
-			6. Проделываем аналогичную операцию со знаками препинания, если они вкрались по недосмотру в текст пирожка. Напомню: наиболее популярные в народе знаки препинания - это ДВОЕТОЧИЕ, ТИРЕ, ЗАПЯТАЯ, ТОЧКА. После их удаления текст принимает следующий вид: "Напомню наиболее популярные в народе знаки препинания это ДВОЕТОЧИЕ ТИРЕ ЗАПЯТАЯ ТОЧКА". Занесённые Розенталем в Красную книгу вопросительный и восклицательный знаки также безжалостно выпалываем вместе с дефисами, кавычками, скобками. Должны остаться только буквы.
-          </span>
+		<div class="section">
+        <h3 class="center-align">Правила написания</h3>
+		<div ng-repeat="rule in poeminfo.howTo">
+			<blockquote class="flow-text">
+	      	{{rule}}
+	    	</blockquote>
+    	</div>
 		</div>
-		<!-- END Writing rules section !-->
 
-		<!-- Examples section !-->
+		<div class="divider"></div>
+
 		<div class="section">
         <h3 class="center-align">Примеры</h3>
-         <span class="flow-text">
-			однажды айсберг анатолий
-			по морде ночью схлопотал
-			тут анатолий рассердился
-			и вот ди каприо в воде
 
-         </span>
+        	<div class="row">
+		        <div ng-repeat="x in poeminfo.examples">
+
+			      	<div class="col s12 m4">
+				        <div class="card-panel yellow lighten-3">
+				        	<p ng-repeat="line in x" class="blue-grey-text text-darken-3"> {{line}} </p>
+			        	</div>
+			    	</div>
+				</div>
+	        </div>
 		</div>
 
-		<div class="card-action center-align row">
-              <a class="waves-effect waves-light btn col s10 offset-s1 amber accent-3">Поехали</a>
-        </div>
-
-
+		<div class="row">
+		<div class="section">
+			<a class="waves-effect waves-light btn col s10 offset-s1 yellow darken-3">Поехали</a>
 		</div>
-	</div>
+		</div>
+
+
+
+</div>
+
+</div>
+
 </div>

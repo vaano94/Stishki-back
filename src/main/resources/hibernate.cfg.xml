@@ -19,6 +19,7 @@
         <mapping class="org.rest.webapp.Entity.User"/>
         <mapping class="org.rest.webapp.Entity.Poem"/>
         <mapping class="org.rest.webapp.Entity.Draft"/>
+        <mapping class="org.rest.webapp.Entity.PoemInfo"/>
 
 
 

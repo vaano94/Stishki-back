@@ -24,6 +24,21 @@ app.service('LoginService', function(){
 	}
 });
 
+app.factory('PoemDescFactory', function() {
+
+    var itemsService = {};
+
+    itemsService.get = function() {
+        return itemsService;
+    };
+    itemsService.set = function(item) {
+        itemsService = item;
+        console.log(itemsService);
+    };
+
+    return itemsService;
+});
+
 app.factory('PoemDataFactory', function() {
 
 });
