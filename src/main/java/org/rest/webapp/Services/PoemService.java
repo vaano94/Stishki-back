@@ -1,5 +1,6 @@
 package org.rest.webapp.Services;
 
+import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.rest.webapp.DAO.PoemDAO;
@@ -47,6 +48,16 @@ public class PoemService {
     public List<Poem> getNewOnes() {
         poemDAO.openCurrentSessionwithTransaction();
         List<Poem> poems = poemDAO.getCurrentSession().createCriteria(Poem.class).addOrder(Order.desc("id")).setMaxResults(40).list();
+        poemDAO.closeCurrentSessionwithTransaction();
+        return poems;
+    }
+
+    public List<Poem> getByOffset(int startOffset) {
+        poemDAO.openCurrentSessionwithTransaction();
+        Criteria criteria = poemDAO.getCurrentSession().createCriteria(Poem.class).addOrder(Order.desc("id"));
+        criteria.setFirstResult(startOffset);
+        criteria.setMaxResults(40);
+        List<Poem> poems = criteria.list();
         poemDAO.closeCurrentSessionwithTransaction();
         return poems;
     }

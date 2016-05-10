@@ -38,7 +38,7 @@
   </upper-navigation>
   
   
-  <div ng-controller="dataFetchController as dataCtrl" ng-init="dataCtrl.fetchnew()">
+  <div ng-controller="dataFetchController as dataCtrl" scroll ng-init="dataCtrl.fetchnew()">
 
   <button id="clickMe" onclick="printToParse()">ClickMe</button>
   <button id="TEST" onclick="testMakeCard()">TESTCARD</button>
@@ -61,13 +61,13 @@
         </div>
         <!-- Card action !-->
         <div class="card-action yellow lighten-4">
-          <i class="material-icons">thumb_up</i>
-          <a href="#" ng-click="updateLike(x.id,x.likes,$index)" ng-model="likes.id" id="like{{x.id}}">{{x.likes}}</a>
-          <i class="material-icons">thumb_down</i>
-          <a href="#" ng-click="updateDislike(x.id,x.dislikes,$index)" ng-model="dislikes.id" id="dislike{{x.id}}">{{x.dislikes}}</a>
+          <i class="material-icons" ng-click="updateLike(x.id,x.likes,$index)">thumb_up</i>
+          <a ng-model="likes.id" id="like{{x.id}}">{{x.likes}}</a>
+          <i class="material-icons" ng-click="updateDislike(x.id,x.dislikes,$index)">thumb_down</i>
+          <a ng-model="dislikes.id" id="dislike{{x.id}}">{{x.dislikes}}</a>
           <!-- <h5 class="right-align">{{  x.hashtags  }}</h5> -->
             <span ng-repeat="tag in x.hashtags" style="float:right">
-              <a class="right-align" href="#" id="tagId" ng-click="dataCtrl.getByHash(tag)">#{{tag}}</a>
+              <a class="right-align" href="poem{{x.id}}" id="tagId" ng-click="dataCtrl.getByHash(tag)">#{{tag}}</a>
             </span>
         </div>
       </div>

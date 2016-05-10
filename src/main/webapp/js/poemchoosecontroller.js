@@ -18,7 +18,7 @@ angular.module('app').controller('PoemChooseController',function($scope, $http, 
 			result.howTo = howToParsed;
 
 			for (i=0;i<result.examples.length;i++) {
-        		result.howTo[i] = result.howTo[i].split("\n");
+        		result.examples[i] = result.examples[i].split("\n");
         	};
 				
 

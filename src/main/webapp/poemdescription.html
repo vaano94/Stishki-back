@@ -12,7 +12,7 @@
 		
 		<div class="section center-align">
         <h3 class="center-align">Слоги в стихе</h3>
-        <img class="center-align" src="{{poeminfo.path}}">
+        <img class="center-align" ng-src="{{poeminfo.path}}">
 		<p class="flow-text center-align">{{poeminfo.sylRules}}</p>
 		</div>
 
@@ -34,10 +34,9 @@
 
         	<div class="row">
 		        <div ng-repeat="x in poeminfo.examples">
-
-			      	<div class="col s12 m4">
+			      	<div class="col s12 m5 center-align">
 				        <div class="card-panel yellow lighten-3">
-				        	<p ng-repeat="line in x" class="blue-grey-text text-darken-3"> {{line}} </p>
+				        	<p ng-repeat="line in x" class="blue-grey-text text-darken-3" font-size="8px"> {{line}} </p>
 			        	</div>
 			    	</div>
 				</div>

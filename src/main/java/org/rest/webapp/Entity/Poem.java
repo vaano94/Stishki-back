@@ -1,5 +1,6 @@
 package org.rest.webapp.Entity;
 
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -13,9 +14,7 @@ import java.util.List;
  */
 @Entity
 @Table
-@org.hibernate.annotations.Entity(
-        dynamicUpdate = true
-)
+@DynamicUpdate(value=true)
 public class Poem {
 
     @Id

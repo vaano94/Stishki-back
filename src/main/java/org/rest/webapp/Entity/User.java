@@ -1,6 +1,6 @@
 package org.rest.webapp.Entity;
 
-import com.sun.istack.NotNull;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import javax.ws.rs.DefaultValue;
@@ -12,6 +12,7 @@ import java.util.Set;
  */
 @Entity
 @Table
+@DynamicUpdate(value = true)
 public class User {
 
     @Id

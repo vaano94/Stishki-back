@@ -115,13 +115,50 @@ app.service('LikeService', function($http){
 });
 
 
-app.controller('dataFetchController', function($scope, $http, LoginService, LikeService, ngDialog) {
+app.directive("scroll", function ($window, $http) {
+	var offset = 40;
+	var displayed;
+    return function($scope, element, attrs) {
+      
+        angular.element($window).bind("scroll", function() {
+        	//console.log("page offset is: " + this.pageYOffset);
+        	//console.log("element summary offset is: " + $('#poem115').outerHeight(true)*35);
+            if (this.pageYOffset + $('#poem115').outerHeight(true)*5 >= $('#poem115').outerHeight(true)*offset) {
+            	offset += 40;
+                 $http.post("http://localhost:8080/rest/poem/offset", offset-40 )
+                 .then(function(response){
+            	 	
+            	 	respond = JSON.stringify(response.data);
+					var result = JSON.parse(respond);
+					console.log(result);
+                 	for (i = 0; i<result.poems.length; i++) {
+                 		result.poems[i].content = result.poems[i].content.split("\n");
+                 		$scope.PoemData.push(result.poems[i]);
+             		}
+             		displayed = result.offset;
+             		console.log("Displayed: " + displayed + " .. poemsLength: " + $scope.PoemData.length);
+                 });
+             } 
+   			$scope.$apply();
+        });
+    };
+});
+
+
+app.controller('dataFetchController', function($scope, $http, $interval, LoginService, LikeService, ngDialog) {
 	var poems = {};
 	$scope.PoemData = {};
 	
 	 $scope.clickToOpen = function () {
         ngDialog.open({ template: 'poemchoose.html', className: 'ngdialog-theme-default', width:'70%' });
     };
+
+    //$interval(callOnTimeout,1000);
+
+    /*function callOnTimeout() {
+    	var height = $('#poem115').outerHeight(true);
+    	console.log("Card height is : " + height);
+    }*/
 
 	$scope.$on('navClick', function(ev,data) {
 
@@ -147,7 +184,7 @@ app.controller('dataFetchController', function($scope, $http, LoginService, Like
 
 	$scope.ctrlLoggedStatus = function() {
 		$scope.a = LoginService.getLogStatus();
-		console.log($scope.a);
+		//console.log($scope.a);
 		return LoginService.getLogStatus();
 	}
 
