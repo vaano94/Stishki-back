@@ -5,8 +5,10 @@
 
 var app = angular.module('frontpage', ['ngDialog', 'app']);
 
+	
+	app.controller('PoemFieldController', function($scope, $http) {
 
-
+	});
 
 
 });
