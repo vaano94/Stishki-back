@@ -2,7 +2,8 @@
  * Created by Ivan on 4/27/2016.
  */
 // проверка пароля
-angular.module('app').directive('match', function($parse,$location) {
+//angular.module('app').directive('match', function($parse,$location) {
+    angular.module('templateapp').directive('match', function($parse,$location) {
     return {
         require: 'ngModel',
         link: function(scope, elem, attrs, ctrl) {
@@ -15,7 +16,8 @@ angular.module('app').directive('match', function($parse,$location) {
     };
 });
 
-angular.module('app').controller('registrationCtrl', function($scope,$http,$timeout) {
+//angular.module('app').controller('registrationCtrl', function($scope,$http,$timeout) {
+angular.module('templateapp').controller('registrationCtrl', function($scope,$http,$timeout) {
     $scope.master = {};
     $scope.regForm = angular.copy($scope.form);
     var data = {};

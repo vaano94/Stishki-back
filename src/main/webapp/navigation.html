@@ -6,11 +6,12 @@
              <div class="nav-wrapper">
                 <form novalidate class="css-form">
                     <div class="input-field">
+                    <!-- ng-change="send(hashtags.tags)" !-->
                     <input id="search" type="text" ng-model="hashtags.tags" 
-                    ng-change="send(hashtags.tags)"
+                    
                      required>
                     <label for="search align-left"><i class="material-icons">search</i></label>
-                    <i class="material-icons">close</i>
+                    <!-- <i class="material-icons">close</i> -->
                     </div>
                 </form>
             </div>
@@ -21,7 +22,7 @@
             <li><a class="blue-grey-text text-darken-3" href="collapsible.html" ng-show="logged">Аудио</a></li>
             <li><a class="blue-grey-text text-darken-3" href="collapsible.html" ng-show="logged">Черновики</a></li>
             <li><a class="blue-grey-text text-darken-3" href="collapsible.html" ng-show="logged">Мой профиль</a></li>
-            <li><a class="blue-grey-text text-darken-3" href="registration.html" ng-show="!logged">Регистрация</a></li>
+            <li><a class="blue-grey-text text-darken-3" href="#registration" ng-show="!logged">Регистрация</a></li>
             <!-- Modal Trigger -->
             <li><a class="blue-grey-text text-darken-3 modal-trigger" href="#modal1" ng-show="!logged">Войти</a></li>
             <li><a class="blue-grey-text text-darken-3" ng-show="logged" ng-click="logoutuser()">Выйти</a></li>

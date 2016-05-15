@@ -1,6 +1,8 @@
 (function() {
 
-var app = angular.module('app', ['ngDialog']);
+var app = angular.module('app', ['ngDialog', 'ngRoute']);
+
+
 // determines whether user is logged in system
 // token field
 var token = "";
@@ -26,7 +28,7 @@ app.service('LoginService', function(){
 
 app.factory('PoemDescFactory', function() {
 
-    var itemsService = {};
+    var itemsService = "Тут ничего нет";
 
     itemsService.get = function() {
         return itemsService;
@@ -39,8 +41,17 @@ app.factory('PoemDescFactory', function() {
     return itemsService;
 });
 
-app.factory('PoemDataFactory', function() {
-
+app.service('PoemDataService', function($window) {
+	this.poemType = localStorage['poemtype'] || "";
+	this.setPoemType = function(poem) {
+		this.poemType = poem;
+		localStorage['poemtype'] = poem; // only strings
+		console.log(this.poemType);
+	}
+	this.getPoemType = function(){
+		this.poemType = localStorage['poemtype'] || "";
+		return this.poemType;
+	}
 });
 
 app.service('LikeService', function($http){
@@ -146,10 +157,10 @@ app.directive("scroll", function ($window, $http) {
 
 
 app.controller('dataFetchController', function($scope, $http, $interval, LoginService, LikeService, ngDialog) {
-	var poems = {};
-	$scope.PoemData = {};
-	
-	 $scope.clickToOpen = function () {
+	/*var poems = {};
+	$scope.PoemData = {};*/
+
+	$scope.clickToOpen = function () {
         ngDialog.open({ template: 'poemchoose.html', className: 'ngdialog-theme-default', width:'70%' });
     };
 

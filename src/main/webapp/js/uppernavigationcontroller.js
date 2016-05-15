@@ -1,7 +1,8 @@
 /**
  * Created by Ivan on 4/27/2016.
  */
-angular.module('app').directive("upperNavigation", function($rootScope){
+//angular.module('app').directive("upperNavigation", function($rootScope){
+angular.module('templateapp').directive("upperNavigation", function($rootScope){
     return {
       restrict: "E",
       scope: {cb: '&cb'},
@@ -9,17 +10,17 @@ angular.module('app').directive("upperNavigation", function($rootScope){
       link: function(scope, element, attrs, dateTimeController) {
 		    console.log('linked directive, passing argument');
 		    scope.send = function (hashtags) {
-		      	console.log('emitting')
-		      	scope.master = angular.copy(hashtags);
-				data = scope.master;
-		       	$rootScope.$broadcast('navClick',data)
+		      	//console.log('emitting')
+		      	//scope.master = angular.copy(hashtags);
+				/*data = scope.master;*/
+		       	$rootScope.$broadcast('navClick',angular.copy(hashtags));
 		    }
 		}
     };
   })
 	.controller("navigationCtrl", function($scope,$http,$rootScope,LoginService){
 
-		$scope.$on('navClick', function(ev,data) {console.log(data)})
+		//$scope.$on('navClick', function(ev,data) {console.log(data)})
 	
 		$(document).ready(function()	{
     	// the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
