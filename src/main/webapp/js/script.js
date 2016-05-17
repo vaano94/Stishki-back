@@ -40,7 +40,7 @@ var templateapp = angular.module('templateapp',['ngDialog','ngRoute']);
 
     templateapp.factory('PoemDescFactory', function() {
 
-        var itemsService = "Тут ничего нет";
+        var itemsService = {};
 
         itemsService.get = function() {
             return itemsService;
@@ -53,7 +53,7 @@ var templateapp = angular.module('templateapp',['ngDialog','ngRoute']);
         return itemsService;
     });
 
-    templateapp.service('PoemDataService', function($window) {
+    templateapp.service('PoemDataService', function() {
         this.poemType = localStorage['poemtype'] || "";
         this.setPoemType = function(poem) {
             this.poemType = poem;

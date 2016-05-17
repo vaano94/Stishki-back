@@ -44,17 +44,21 @@
       <!-- Page Layout here -->
     <div class="row main-container">
 
-      <div class="col s12 m2 l2 left hvr-glow"> <!-- Note that "m4 l3" was added -->
+      <div class="col s12 m2 l2 left hvr-glow scrollable " id="rhyme_scroll"> <!-- Note that "m4 l3" was added -->
         
 			<div class="row"><h4 class="center-align">Словарь рифм</h4></div>
 		    <form class="center-align" >
 		        <div class="input-field center-align">
 		          <!-- <i class="material-icons prefix">account_circle</i> -->
-		          <input id="icon_prefix" type="text" class="validate flow-text">
-		          <label for="icon_prefix">Слово</label>
+		          <input id="rhyme_field" type="text" class="validate flow-text">
+		          <label for="rhyme_field">Слово</label>
 		          </div>
+
 		    </form>
 
+		    <div class="row">
+		    	<div ng-repeat="rhyme in RhymeData" class="chip based-on-text amber accent-1">{{rhyme}}</div>
+		    </div>  
       </div>
 
 	<!-- <div class="mydivider"></div> -->
@@ -64,10 +68,14 @@
 	       <div class="container center-align">
 		       	<div class="input-field">
 		          <!-- <i class="material-icons prefix">account_circle</i> -->
-		          <input type="text" class="validate">
+		          <input type="text" style="font-size:1.625em" class="validate flow-text">
 		          </div>
 	       </div>
 	       </form>
+
+		<script type="text/ng-template" id="input.tpl.html">
+        <input type="text" style="font-size:1.625em" class="validate flow-text">
+    	</script>
 
       </div>
 

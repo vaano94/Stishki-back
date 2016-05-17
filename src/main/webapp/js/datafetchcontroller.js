@@ -18,7 +18,7 @@ angular.module('templateapp').controller('dataFetchController', function($scope,
 
     function getByTagTest() {
         tags = $('#search').val();
-        if ($scope.existingTag==tags && $scope.PoemData.length!=0){return;}
+        if ($scope.existingTag==tags || $scope.PoemData.length!=0 || $('#search').val()==""){return;}
         var loginJson = {"hashtags":tags};
         $http.post("http://localhost:8080/rest/poem/hashtags", loginJson)
             .then(function(response) {
@@ -114,6 +114,7 @@ angular.module('templateapp').controller('dataFetchController', function($scope,
     };
 
     this.fetchnew = function() {
+        $scope.existingTag="";
         $http.post("http://localhost:8080/rest/poem/newpoems", {})
             .then(function(response) {
                 poems = response.data;
