@@ -25,8 +25,10 @@ public class PoemChangeService {
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public String addPoem(String information) {
-        String response= "BAD";
+    public String addPoem(String information) throws JSONException {
+        JSONObject response = new JSONObject();
+        response.put("result", "BAD");
+        //String response= "BAD";
         try {
 
             JSONObject result = new JSONObject(information);
@@ -54,14 +56,15 @@ public class PoemChangeService {
             poemService.persist(poem);
             userService.update(user);
 
-            response = "OK";
+            response.put("result", "OK");
+            return response.toString();
 
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
         finally {
-            return response;
+            return response.toString();
         }
     }
 

@@ -44,7 +44,32 @@ app.factory('PoemDescFactory', function() {
 app.service('PoemDataService', function($window) {
 	this.poemType = localStorage['poemtype'] || "";
 	this.setPoemType = function(poem) {
-		this.poemType = poem;
+		switch(poem) {
+			// Two-syllable rhymes
+			case 'Yamb': this.poemType='Ямб'; break;
+			case 'Horey': this.poemType='Хорей'; break;
+			// Three-syllable rhymes
+			case 'Amphibrah': this.poemType='Амфибрахий'; break;
+			case 'Anapest': this.poemType='Анапест'; break;
+			case 'Daktil': this.poemType='Дактиль'; break;
+			// Pirozhok and Poroshok
+			case 'Powder': this.poemType='Порошок'; break;
+			case 'Cake': this.poemType='Пирожок'; break;
+			// Beliy and bezrifmy
+			case 'White': this.poemType='Белый стих'; break;
+			case 'Norhyme': this.poemType='Верлибр'; break;
+			// Stih v proze and Monorim
+			case 'Proza': this.poemType='В прозе'; break;
+			case 'Monorhyme': this.poemType='Монорим'; break;
+			// Acrostih and telestih
+			case 'Acro': this.poemType='Акростих'; break;
+			case 'Телестих': this.poemType='Телестих'; break;
+			// Another
+			case 'Another': this.poemType='Вольный'; break;
+
+			default this.poemType = 'Unknown'; break;
+		}
+		//this.poemType = poem;
 		localStorage['poemtype'] = poem; // only strings
 		console.log(this.poemType);
 	}

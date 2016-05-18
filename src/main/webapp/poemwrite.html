@@ -63,18 +63,29 @@
 
 	<!-- <div class="mydivider"></div> -->
 
-      <div class="col s12 m8 l8 center hvr-glow" > <!-- Note that "m8 l9" was added -->
+      <div class="col s12 m8 l8 center hvr-glow scrollable" > <!-- Note that "m8 l9" was added -->
+      	<h3>Творчество</h3>
 	       <form>
 	       <div class="container center-align">
 		       	<div class="input-field">
 		          <!-- <i class="material-icons prefix">account_circle</i> -->
-		          <input type="text" style="font-size:1.625em" class="validate flow-text">
+		          <input type="text" id="firstline" ng-keypress="addInputField($event)" style="font-size:1.625em" class="validate flow-text">
 		          </div>
 	       </div>
+	       
+	       <div class="container center-align">
+		       <div ng-repeat="input in fieldctrl.displayedInputs track by $index">
+		       <input type="text" id="line{{$index}}" name="line{{$index}}" ng-model="lines[$index]" ng-keypress="addInputField($event)" style="font-size:1.625em" class="validate flow-text">
+		       <!-- <ng-include src="form"></ng-include> -->
+	       	   </div>
+	       </div>
+
+			<pre>{{lines | json}}</pre>
+
 	       </form>
 
 		<script type="text/ng-template" id="input.tpl.html">
-        <input type="text" style="font-size:1.625em" class="validate flow-text">
+        <input type="text" ng-keypress="addTagField($event)" style="font-size:1.625em" class="validate flow-text">
     	</script>
 
       </div>
@@ -88,18 +99,28 @@
 
 		<form class="center-align" >
 			<div class="row">
-				<a class="btn-floating" ng-click="addTagField()"><i class="material-icons">add</i></a>
+				<a class="btn-floating" ng-click="addTagField()"><i class="material-icons orange accent-2">add</i></a>
 		        <div ng-repeat="form in fieldctrl.displayedForms track by $index">
-      			<ng-include src="form"></ng-include>
+      			<input type="text" id="form{{$index}}" name="form{{$index}}" ng-model="forms[$index]">
     			</div>
-		        </div>
+		    </div>
+			<pre>{{forms | json}}</pre>
+
 		</form>
 		</div>
 
 		<script type="text/ng-template" id="form1.tpl.html">
         <input type="text" ng-model="tags.hashtag">
     	</script>      
-		   
+		
+		<div class="container center-align" style="bottom: 0; position: relative"> 
+			<div class="row center-align">  
+			<a class="col s12 waves-effect waves-light btn center-align orange accent-2">В черновики</a>
+			</div>
+			<div class="row center-align">
+			<a class="col s12 waves-effect waves-light btn center-align orange accent-2" ng-click="sendPoem()">Отправить</a>
+			</div>
+		</div>
 
       	</div>
       </div>
@@ -107,6 +128,6 @@
 
     </div>
 
-	</div>
+	<!-- </div> -->
 </body>
 </html>
