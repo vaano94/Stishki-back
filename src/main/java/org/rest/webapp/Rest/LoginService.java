@@ -1,5 +1,6 @@
 package org.rest.webapp.Rest;
 
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.rest.webapp.Entity.Poem;
@@ -9,12 +10,11 @@ import org.rest.webapp.Services.PoemService;
 import org.rest.webapp.Services.UserService;
 import sun.misc.BASE64Encoder;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 
 /**
  * Created by Ivan on 10/22/2015.
@@ -210,6 +210,10 @@ public class LoginService {
                 System.out.println(p.getContent());
 
             }*/
+            JSONArray genres = new JSONArray();
+            for (int i = 0; i < user.getGenres().size(); i++) {
+                genres.put(user.getGenres().get(i));
+            }
 
             JSONObject userDetails = new JSONObject();
             userDetails.put("name", user.getFirstName());
@@ -217,6 +221,8 @@ public class LoginService {
             userDetails.put("email", user.getEmail());
             userDetails.put("likes", String.valueOf(likes));
             userDetails.put("dislikes", String.valueOf(dislikes));
+            userDetails.put("poemcount", user.getPoems().size());
+            userDetails.put("genres", genres);
             result = userDetails.toString();
 
         }

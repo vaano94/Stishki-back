@@ -1,0 +1,117 @@
+<div class="row main-container" ng-controller="UserInfoController as infoctrl" ng-init="getUserProfileInfo()">
+<!--    <div style="height: 10%"></div>-->
+    <div class="infoleft">
+        <div style="height: 10%"></div>
+        <!--Display user name and button change-->
+
+    <div class="input field col s6 offset-s3">
+
+
+
+
+        <input ng-model="userData.nick" type="text" id="nickname" value="{{userData.nick}}" >
+        <label for="nickname">Ник</label>
+
+        <input ng-model="userData.mail" type="text" id="email" value="{{userData.mail}}" >
+        <label for="email">Адрес почты</label>
+
+        <div class="input-field">
+            <select multiple id="select_sub" name="sel" ng-model="userData.genres">
+                <option value="" disabled selected>Подписки</option>
+                <option value="Cake">Пирожок</option>
+                <option value="Powder">Порошок</option>
+                <option value="White">Белый стих</option>
+                <option value="Norhyme">Верлибр</option>
+                <option value="Proza">Проза</option>
+                <option value="Monorhyme">Монорим</option>
+                <option value="Acro">Акростих</option>
+                <option value="Telepoem">Телестих</option>
+            </select>
+            <label>Мои подписки</label>
+        </div>
+
+
+        <div style="height: 6%"></div>
+
+        <a class="col s5 waves-effect waves-light btn center-align orange accent-2"
+           ng-click="showSubs()">Subs</a>
+        <a class="col s5 waves-effect waves-light btn center-align orange accent-2"
+           ng-click="changeInfo()">Изменить данные</a>
+
+        <!--Display user pass and button change-->
+        <input ng-model="userData.oldPass" id="oldPass" type="password" >
+        <label for="oldPass">Старый пароль</label>
+
+        <input ng-model="userData.newPass" ng-change="checkPasswords()" id="newPass" type="password" >
+        <label for="newPass">Новый пароль</label>
+
+        <input ng-model="userData.repPass" id="newPass_r" type="password" ng-change="checkPasswords()">
+        <label for="newPass_r">Повторите пароль</label>
+        <div id="valid_div"></div>
+
+        <div style="height: 4%"></div>
+
+        <a class="col s5 waves-effect waves-light btn center-align orange accent-2"
+           ng-click="changePass()">Изменить</a>
+
+        <div style="height: 7%"></div>
+
+
+    </div>
+        <pre>{{userData | json}}</pre>
+
+
+    </div>
+
+    <div class="inforight">
+        <div style="height: 10%"></div>
+        <h4 class="center-align">Получено откликов</h4>
+        <div class="row">
+            <div class="col s3 offset-s3">
+                <div class="center-align">
+                    <i class="medium material-icons icon-like">thumb_up</i>
+                    <h3>{{userData.likescount}}</h3>
+                </div>
+            </div>
+            <div class="col s3">
+                <div class="center-align">
+                    <i class="medium material-icons icon-dislike">thumb_down</i>
+                    <h3>{{userData.dislikescount}}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <h4 class="center-align">Достижения</h4>
+            <div class="row">
+                <div class="col s6">
+                    <div id="sample_goal"></div>
+                </div>
+                <div class="col s6">
+                    <div id="sample_goal2"></div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s6">
+                    <div id="adept_ach"></div>
+                </div>
+                <div class="col s6">
+                    <div id="master_ach"></div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s6">
+                    <div id="recognized_ach"></div>
+                </div>
+                <div class="col s6">
+                    <div id="unrecognized_ach"></div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+</div>

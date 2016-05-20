@@ -11,6 +11,9 @@ var templateapp = angular.module('templateapp',['ngDialog','ngRoute']);
             .when('/b', {templateUrl:'poemwrite.html'
             //controller: 'PoemFieldController'
             })
+            .when('/userinfo', {
+               templateUrl: 'userinfo.html'
+            })
             .when('/registration', {templateUrl: 'registration.html'});
 
     }]);

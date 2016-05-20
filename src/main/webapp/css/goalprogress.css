@@ -1,0 +1,25 @@
+/**
+ * Created by Ivan on 5/19/2016.
+ */
+.goalProgress {
+    background: #f7df22;
+    padding: 5px;
+    border-radius: 5px;
+}
+div.progressBar {
+    background: #ffb94f;
+    color: #5a5a5a;
+    font-size: 1.5em;
+    font-family: 'roboto', helvetica, arial, sans-serif;
+    letter-spacing: -1px;
+    font-weight: 500;
+    padding: 10px;
+    display: block;
+    overflow: visible;
+    width: 20px;
+    border-radius: 5px;
+}
+span.goalAmount {
+    display: none;
+    text-indent: -9999px;
+}

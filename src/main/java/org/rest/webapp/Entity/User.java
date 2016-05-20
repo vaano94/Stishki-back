@@ -1,10 +1,15 @@
 package org.rest.webapp.Entity;
 
-import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.ws.rs.DefaultValue;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -35,7 +40,14 @@ public class User {
     @Column
     private String type;
 
-    @OneToMany(cascade =CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
+    @ElementCollection (fetch = FetchType.EAGER)
+    @CollectionTable(joinColumns = @JoinColumn(name="user_id"))
+    @Fetch(FetchMode.SELECT)
+    @Cascade(org.hibernate.annotations.CascadeType.ALL )
+    private List<String> genres = new ArrayList<String>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
+    @Cascade(org.hibernate.annotations.CascadeType.ALL )
     private Set<Poem> poems = new HashSet<Poem>();
 
     public Set<Poem> getPoems() {
@@ -108,5 +120,13 @@ public class User {
 
     public void setTokenExpirationTime(Long tokenExpirationTime) {
         this.tokenExpirationTime = tokenExpirationTime;
+    }
+
+    public List<String> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(List<String> genres) {
+        this.genres = genres;
     }
 }

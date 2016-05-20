@@ -11,14 +11,14 @@
 </head>
 <body>
 <script src="jquery-2.2.0.min.js"></script>
-<script src="js/angular.min.js"></script>
+<script src="js/lib/angular.min.js"></script>
 
 <!--<script src="js/frontpage.js"></script>-->
 <script src="js/script.js"></script>
-<script src="js/angular.route.min.js"></script>
+<script src="js/lib/angular.route.min.js"></script>
 <script src="js/registrationcontroller.js"></script>
 <script src="js/datafetchcontroller.js"></script>
-<script type="text/javascript" src="js/materialize.min.js"></script>
+<script type="text/javascript" src="js/lib/materialize.min.js"></script>
 
 <!--<upper-navigation></upper-navigation>!-->
 <h1 class="center-align">Регистрация</h1>
@@ -29,7 +29,7 @@
         <div class="input-field col s6 offset-s3">
             <input id="first_name" type="text" name="firstName" ng-model="user.firstName" required="">
             <label for="first_name">Ваше имя</label>
-            <br />
+            <br/>
             <span ng-show="form.$submitted || form.firstName.$touched">
             <span ng-show="form.firstName.$error.required">Имя не должно быть пустым</span>
         </div>

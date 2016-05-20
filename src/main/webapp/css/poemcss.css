@@ -31,7 +31,24 @@ html, body {
     /*-webkit-flex: 1;
     flex:1;
     position:relative;*/
+}
+.infontsize {
+    font-size:1.625em;
+}
 
+.infoleft {
+    background-color:#fff9c4;
+    flex:2;
+}
+.inforight {
+    background-color: #fff9c4;
+    flex:2;
+}
+.icon-like{
+    color: rgba(88, 101, 255, 0.83);
+}
+.icon-dislike{
+    color: rgba(255, 5, 4, 0.69);
 }
 
 
