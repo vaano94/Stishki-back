@@ -37,7 +37,6 @@ public class PoemChangeService {
             String tags = result.getString("tags");
             String genre = result.getString("genre");
 
-
             UserService userService = new UserService();
             User user = userService.getByToken(token);
 
@@ -119,7 +118,7 @@ public class PoemChangeService {
             System.out.println(s);
             ArrayList<JSONObject> userPoems = new ArrayList<JSONObject>();
             JSONArray mainArray = new JSONArray();
-
+            ArrayList<JSONObject> poems = new ArrayList<JSONObject>();
             PoemService poemService = new PoemService();
             ArrayList<Poem> poemList = (ArrayList<Poem>) poemService.getByOffset(Integer.parseInt(s));
 
@@ -151,6 +150,58 @@ public class PoemChangeService {
             e.printStackTrace();
         }
         return response;
+    }
+
+
+    @POST
+    @Path("/sub")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getByOffsetSub(String data) {
+        return null;
+    }
+
+    @POST
+    @Path("/popular")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getByOffsetPopular(String data) {
+        JSONObject result = new JSONObject();
+        try {
+            JSONObject jsonObject = new JSONObject(data);
+            int offset = Integer.parseInt(jsonObject.getString("offset"));
+            PoemService poemService = new PoemService();
+            JSONArray mainArray = new JSONArray();
+            //ArrayList<JSONObject> poems = new ArrayList<JSONObject>();
+            List<Poem> list = poemService.getByOffset(offset);
+
+            for (Poem p : list) {
+
+                JSONObject poem = new JSONObject();
+                poem.put("genre", p.getGenre());
+                poem.put("content", p.getContent());
+                JSONArray poemhashtags = new JSONArray();
+                for (String tag : p.getHashtags()){
+                    poemhashtags.put(tag);
+                }
+                poem.put("id", p.getId());
+                poem.put("author", p.getUser().getNickName());
+                poem.put("hashtags", poemhashtags);
+                poem.put("likes", p.getLikes().size());
+                poem.put("dislikes", p.getDislikes().size());
+
+                //poems.add(poem);
+                //userPoems.add(poem);
+                mainArray.put(poem);
+            }
+            result.put("result", "OK");
+            result.put("poems",mainArray);
+            return result.toString();
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 
@@ -277,7 +328,6 @@ public class PoemChangeService {
             else {
                 PoemService poemService = new PoemService();
                 Poem poem = poemService.getById(clientData.getInt("id"));
-                //System.out.println(poem.getContent());
                 //Check if token is already sent by a user
                 long userId = userService.getByToken(clientData.getString("token")).getId();
                 //System.out.println(poem.getLikes());
@@ -286,12 +336,14 @@ public class PoemChangeService {
                 if (poem.getLikes().contains(userId)) {
                     result.put("result", "decrement");
                     poem.getLikes().remove(userId);
+                    poem.setLikesCount(poem.getLikesCount()-1L);
                     poemService.update(poem);
                 }
                 // If token is not sent, set like
                 else {
                     result.put("result","increment");
                     poem.addLike(userService.getByToken(clientData.getString("token")).getId());
+                    poem.setLikesCount(poem.getLikesCount()+1L);
                     poemService.update(poem);
                 }
 

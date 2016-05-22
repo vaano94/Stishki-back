@@ -5,7 +5,9 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.rest.webapp.DAO.PoemDAO;
 import org.rest.webapp.Entity.Poem;
+import org.rest.webapp.Schedule.PoemScheduledService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -91,6 +93,18 @@ public class PoemService {
         List<Poem> poems = poemDAO.getCurrentSession().createQuery(query).list();
         poemDAO.closeCurrentSessionwithTransaction();
         return poems;
+    }
+    public List<Poem> getPopularByOffset(int offset) {
+        List<Poem> list = PoemScheduledService.popularPoems;
+        int endoffset = offset+40;
+        if (list.size()<=offset) {
+            return new ArrayList<Poem>();
+        }
+        if (list.size()<=offset+40) {
+            endoffset = list.size();
+        }
+        List<Poem> offsetList = list.subList(offset, endoffset);
+        return offsetList;
     }
 
 

@@ -13,6 +13,13 @@
         <property name="show_sql">true</property>
         <property name="hbm2ddl.auto">update</property>
         <property name="current_session_context_class">thread</property>
+
+        <property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
+        <!-- enable second level cache and query cache -->
+        <property name="hibernate.cache.use_second_level_cache">true</property>
+        <property name="hibernate.cache.use_query_cache">true</property>
+        <property name="net.sf.ehcache.configurationResourceName">/myehcache.xml</property>
+
         <!-- Newly added property !-->
         <!--<property name="hibernate.enable_lazy_load_no_trans">true</property>-->
 

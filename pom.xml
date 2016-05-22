@@ -30,6 +30,32 @@
       <version>1.19</version>
     </dependency>
 
+    <!-- http://mvnrepository.com/artifact/org.hibernate/hibernate-ehcache -->
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-ehcache</artifactId>
+      <version>4.2.2.Final</version>
+    </dependency>
+
+    <!-- http://mvnrepository.com/artifact/net.sf.ehcache/ehcache-core -->
+    <dependency>
+      <groupId>net.sf.ehcache</groupId>
+      <artifactId>ehcache-core</artifactId>
+      <version>2.6.9</version>
+    </dependency>
+
+    <!-- http://mvnrepository.com/artifact/org.quartz-scheduler/quartz -->
+    <dependency>
+      <groupId>org.quartz-scheduler</groupId>
+      <artifactId>quartz</artifactId>
+      <version>2.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>javax</groupId>
+      <artifactId>javaee-api</artifactId>
+      <version>7.0</version>
+    </dependency>
+
 
   </dependencies>
   <build>

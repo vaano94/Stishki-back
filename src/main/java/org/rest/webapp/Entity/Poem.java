@@ -1,5 +1,6 @@
 package org.rest.webapp.Entity;
 
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -8,6 +9,8 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * Created by Ivan on 10/8/2015.
@@ -15,6 +18,8 @@ import java.util.List;
 @Entity
 @Table
 @DynamicUpdate(value=true)
+@Cacheable
+@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="poem")
 public class Poem {
 
     @Id
@@ -26,6 +31,9 @@ public class Poem {
     @CollectionTable(joinColumns = @JoinColumn(name="id"))
     @Fetch(FetchMode.SELECT)
     private List<Long> likes = new ArrayList<Long>();
+
+    @Column(nullable = false, columnDefinition = "long default 0L")
+    private Long likesCount = 0L;
 
     @ElementCollection (fetch = FetchType.EAGER)
     @CollectionTable(joinColumns = @JoinColumn(name="id"))
@@ -62,6 +70,13 @@ public class Poem {
         getLikes().add(id);
     }
 
+    public Long getLikesCount() {
+        return likesCount;
+    }
+
+    public void setLikesCount(Long likesCount) {
+        this.likesCount = likesCount;
+    }
 
     public void addDislike(long id) {
         this.getDislikes().add(id);

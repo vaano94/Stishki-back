@@ -100,12 +100,12 @@
 		<form class="center-align" >
 			<div class="row">
 				<a class="btn-floating" ng-click="addTagField()"><i class="material-icons orange accent-2">add</i></a>
+				<a class="btn-floating" ng-click="delTagField()"><i class="material-icons orange accent-2">remove</i></a>
 		        <div ng-repeat="form in fieldctrl.displayedForms track by $index">
       			<input type="text" id="form{{$index}}" name="form{{$index}}" ng-model="forms[$index]">
     			</div>
 		    </div>
 			<pre>{{forms | json}}</pre>
-
 		</form>
 		</div>
 

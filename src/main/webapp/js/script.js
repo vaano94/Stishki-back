@@ -5,8 +5,11 @@ var templateapp = angular.module('templateapp',['ngDialog','ngRoute']);
 
     templateapp.config(['$routeProvider', function($routeProvider){
         $routeProvider
-            .when('/', {templateUrl: 'frontpage.tmp.html'
-               // controller: 'dataFetchController'
+            .when('/', {templateUrl: 'frontpage.tmp.html',
+                controller: 'dataFetchController'
+            })
+            .when('/index', {templateUrl: 'frontpage.tmp.html',
+                controller: 'dataFetchController'
             })
             .when('/b', {templateUrl:'poemwrite.html'
             //controller: 'PoemFieldController'

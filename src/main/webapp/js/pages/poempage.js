@@ -51,7 +51,16 @@ angular.module('templateapp').controller('PoemFieldController', function($scope,
 			counter ++;
 			ctrl.displayedForms.push("form1.tpl.html");
 
-		}
+		};
+
+		$scope.delTagField = function() {
+			if (counter==0) {
+				return;
+			}
+			counter--;
+			delete $scope.forms[counter];
+			ctrl.displayedForms.pop();
+		};
 		
     	$scope.addInputField = function(event) {
     		if (event.keyCode == 13) {
@@ -65,7 +74,9 @@ angular.module('templateapp').controller('PoemFieldController', function($scope,
     		linescounter++;*/
 
     		}
-		}
+		};
+
+
 
 		$scope.sendPoem = function() {
 			// Grab poemtext into single line

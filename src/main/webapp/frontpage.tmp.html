@@ -1,13 +1,24 @@
-<div ng-controller="dataFetchController as dataCtrl" scroll ng-init="dataCtrl.fetchnew()">
+<div ng-controller="dataFetchController as dataCtrl" scroll ng-init="fetchnew()">
 
     <button id="clickMe" onclick="printToParse()">ClickMe</button>
     <button id="TEST" onclick="testMakeCard()">TESTCARD</button>
     <button id="second" onclick="callOtherDomain()">SECOND</button>
-    <button id="TEST2" onclick="testMakeCardIterative()">Iterative</button>
 
     <button ng-click="dataCtrl.getData()">AngularDataTest</button>
     <button ng-click="dataCtrl.retrievePoems()">ServiceTest</button>
 
+    <div class="row">
+        <div class="col s12">
+            <ul class="tabs">
+                <li class="tab col s3"><a href="#test1">Test 1</a></li>
+                <li class="tab col s3"><a class="active" href="#test2">Test 2</a></li>
+                <li class="tab col s3"><a href="#test3">Test 3</a></li>
+            </ul>
+        </div>
+        <div id="test1" class="col s12">Test 1</div>
+        <div id="test2" class="col s12">Test 2</div>
+        <div id="test3" class="col s12">Test 3</div>
+    </div>
 
     <div class="row">
         <div ng-repeat="x in PoemData track by $index" class="container">

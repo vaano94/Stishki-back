@@ -33,6 +33,7 @@ angular.module('templateapp').controller('UserInfoController', function($scope, 
                 oldPass_old = result.likes;
                 newPass_old = result.dislikes;
                 newPass_r_old = result.poemcount;
+                genres_old = result.genres;
 
                 subs = "";
                 array = {};
@@ -161,23 +162,28 @@ angular.module('templateapp').controller('UserInfoController', function($scope, 
     };
 
     $scope.changeInfo = function() {
-        data = {};
-        if (changedNick==changedNick_old) {
-            data.nick="";
+        $('select').material_select();
+        if ($scope.userData.nick==changedNick_old && $scope.userData.mail==changedEmail_old
+        && $scope.userData.genres==genres_old) {
+            Materialize.toast("Параметры не были изменены", 3500);
         }
-        else {data.nick=changedNick;}
+        else {
+            token = localStorage['token'] || '';
+            data = {
+                "token": token, "nickname": $scope.userData.nick, "email": $scope.userData.mail,
+                "genres": $scope.userData.genres};
 
-        if (changedEmail==changedEmail_old) {
-            data.email="";
+                $http.post("http://localhost:8080/rest/userdata/changeinfo", data)
+                .then(function (response) {
+                    result = JSON.stringify(response.data);
+                    result = JSON.parse(result);
+                    if (response.data.result == "OK") {
+                        Materialize.toast("Данные успешно изменены", 3500);
+
+                    }
+                });
         }
-        else {data.email=changedEmail;}
-
-        oldPass = $scope.userData.oldPass;
-        newPass = $scope.userData.newPass;
-        newPass_r = $scope.userData.poemscount;
-
-
-    }
+    };
 
     $scope.changePass = function() {
         // if old password is wrong

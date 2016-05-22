@@ -38,6 +38,10 @@
         <session-timeout>15</session-timeout>
     </session-config>
 
+    <listener>
+        <listener-class>org.rest.webapp.Schedule.QuartzListener</listener-class>
+    </listener>
+
 </web-app>
 
 

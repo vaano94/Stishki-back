@@ -113,7 +113,7 @@ angular.module('templateapp').controller('dataFetchController', function($scope,
         };
     };
 
-    this.fetchnew = function() {
+    $scope.fetchnew = function() {
         $scope.existingTag="";
         $http.post("http://localhost:8080/rest/poem/newpoems", {})
             .then(function(response) {
