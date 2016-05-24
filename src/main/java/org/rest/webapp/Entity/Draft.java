@@ -34,8 +34,7 @@ public class Draft {
     @Fetch(value = FetchMode.SUBSELECT)
     private List<String> hashtags = new ArrayList<String>();
 
-
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn
     private User user;
 

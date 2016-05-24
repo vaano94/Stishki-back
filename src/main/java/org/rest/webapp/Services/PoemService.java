@@ -1,6 +1,7 @@
 package org.rest.webapp.Services;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.rest.webapp.DAO.PoemDAO;
@@ -65,10 +66,20 @@ public class PoemService {
     }
 
 
-    public List<Poem> getByGenre(String genre) {
-        String[] array = genre.split(" #"); // #one #two
+    public List<Poem> getByGenre(List<String> genres, int offset) {
+        //String[] array = genres.split(" "); // one two
         poemDAO.openCurrentSessionwithTransaction();
-        List<Poem> poems = poemDAO.getCurrentSession().createCriteria(Poem.class).add(Restrictions.eq("genre", genre)).list();
+
+        Disjunction disjunction = Restrictions.disjunction();
+        for (String s: genres) {
+            disjunction.add(Restrictions.eq("genre", s));
+        }
+        Criteria criteria = poemDAO.getCurrentSession().createCriteria(Poem.class)
+               .add(disjunction)
+               .addOrder(Order.desc("id"))
+               .setFirstResult(offset)
+               .setMaxResults(offset+40);
+        List<Poem> poems = criteria.list();
         poemDAO.closeCurrentSessionwithTransaction();
         return poems;
     }

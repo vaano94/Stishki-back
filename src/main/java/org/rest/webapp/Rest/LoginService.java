@@ -40,7 +40,6 @@ public class LoginService {
 
             // в одном дне 86400 секунд (ппц)
             // в трех днях 259200
-            // String token = new BASE64Encoder().encode(logpass.getBytes()) + ((System.currentTimeMillis()/1000L)+259200);
 
             UserService userService = new UserService();
             // if userField is empty add token and timeStamp
@@ -67,6 +66,11 @@ public class LoginService {
                     result.put("result", "OK");
                     result.put("token",token);
                     result.put("id", userByNick.getId());
+                    JSONArray genres = new JSONArray();
+                    for (int i = 0; i < userByNick.getGenres().size(); i++) {
+                        genres.put(userByNick.getGenres().get(i));
+                    }
+                    result.put("genres", genres);
                     return result.toString();
                 }
                 // else check existing tokens
@@ -76,6 +80,11 @@ public class LoginService {
                         result.put("result", "OK");
                         result.put("token",userByNick.getToken());
                         result.put("id", userByNick.getId());
+                        JSONArray genres = new JSONArray();
+                        for (int i = 0; i < userByNick.getGenres().size(); i++) {
+                            genres.put(userByNick.getGenres().get(i));
+                        }
+                        result.put("genres", genres);
                         return result.toString();
                     }
                     // else we generate new one if old is deprecated and create new TimeStamp
@@ -89,6 +98,11 @@ public class LoginService {
                         result.put("result", "OK");
                         result.put("token",token);
                         result.put("id", userByNick.getId());
+                        JSONArray genres = new JSONArray();
+                        for (int i = 0; i < userByNick.getGenres().size(); i++) {
+                            genres.put(userByNick.getGenres().get(i));
+                        }
+                        result.put("genres", genres);
                         return result.toString();
 
                     }
@@ -99,23 +113,6 @@ public class LoginService {
                 result.put("token","");
                 return result.toString();
             }
-
-           /* for (User user : userService.getAll()) {
-                if (user.getNickName().equals(login) && user.getPassword().equals(password)) {
-                    userService.getByNickName(login).setToken(token);
-                    result.put("result", "OK");
-                    result.put("token", token);
-                    result.put("id", user.getId());
-                    user.setToken(token);
-                    userService.update(user);
-                    break;
-                }
-                else {
-                    result.put("result", "BAD");
-                    result.put("token","");
-                }
-            }*/
-
 
         } catch (JSONException e) {
             e.printStackTrace();

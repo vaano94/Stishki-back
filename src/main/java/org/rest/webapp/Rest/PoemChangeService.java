@@ -158,6 +158,48 @@ public class PoemChangeService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public String getByOffsetSub(String data) {
+        JSONObject result = new JSONObject();
+        try {
+            PoemService poemService = new PoemService();
+            UserService userService = new UserService();
+            JSONObject jsonObject = new JSONObject(data);
+            //JSONArray genres = jsonObject.getJSONArray("genres");
+            int offset = jsonObject.getInt("offset");
+            System.out.println("OFFSET HAS COME :" + offset);
+            String token = jsonObject.getString("token");
+            User user = userService.getByToken(token);
+            if (user!=null) {
+                List<String> genres = user.getGenres();
+                List<Poem> poems = poemService.getByGenre(genres, offset);
+                JSONArray mainArray = new JSONArray();
+                for (Poem p : poems) {
+
+                    JSONObject poem = new JSONObject();
+                    poem.put("genre", p.getGenre());
+                    poem.put("content", p.getContent());
+                    JSONArray poemhashtags = new JSONArray();
+                    for (String tag : p.getHashtags()) {
+                        poemhashtags.put(tag);
+                    }
+                    poem.put("id", p.getId());
+                    poem.put("author", p.getUser().getNickName());
+                    poem.put("hashtags", poemhashtags);
+                    poem.put("likes", p.getLikes().size());
+                    poem.put("dislikes", p.getDislikes().size());
+                    mainArray.put(poem);
+                }
+                result.put("result", "OK");
+                result.put("poems", mainArray);
+                return result.toString();
+            }
+            else {
+                result.put("result", "NOUSER");
+                return result.toString();
+            }
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
@@ -165,15 +207,15 @@ public class PoemChangeService {
     @Path("/popular")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public String getByOffsetPopular(String data) {
+    public String getByOffsetPopular(String data) throws JSONException {
         JSONObject result = new JSONObject();
         try {
-            JSONObject jsonObject = new JSONObject(data);
-            int offset = Integer.parseInt(jsonObject.getString("offset"));
+            System.out.println(data);
+            //JSONObject jsonObject = new JSONObject(data);
+            int offset = Integer.parseInt(data);
             PoemService poemService = new PoemService();
             JSONArray mainArray = new JSONArray();
-            //ArrayList<JSONObject> poems = new ArrayList<JSONObject>();
-            List<Poem> list = poemService.getByOffset(offset);
+            List<Poem> list = poemService.getPopularByOffset(offset);
 
             for (Poem p : list) {
 
@@ -199,9 +241,10 @@ public class PoemChangeService {
             return result.toString();
 
         } catch (JSONException e) {
+            result.put("result", "BAD");
             e.printStackTrace();
         }
-        return null;
+        return result.toString();
     }
 
 

@@ -1,3 +1,5 @@
+package test;
+
 import org.codehaus.jettison.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -17,12 +19,12 @@ public class PoemAddTest {
 
         try {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("poem", "на джып соседа глеб с балкона\n" +
-                    "бросает ночью пару дынь\n" +
-                    "тыдыннь он слышит с наслажденьем\n" +
-                    "тыдыннь");
-            jsonObject.put("token", "38c5abdb9f09ca6e3e403dde52ed98eb6304d3549fdae91afc025b87fae70faf");
-            jsonObject.put("genre","Порошок");
+            jsonObject.put("poem", "его прошу иди скорее \n" +
+                    "дай поцелую милый друг\n" +
+                    "а он чеснок ест и ни шагу \n" +
+                    "за круг");
+            jsonObject.put("token", "4c1368a95eeb821f22a863bac9019b73fd393490d70735addf9e6e17166e2cf8");
+            jsonObject.put("genre","Cake");
             jsonObject.put("tags", "one two three");
 
             //String authStringEnc = new BASE64Encoder().encode("hey:hey".getBytes());

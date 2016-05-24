@@ -269,6 +269,11 @@ app.controller('dataFetchController', function($scope, $http, $interval, LoginSe
 	};
 
 	this.fetchnew = function() {
+
+		// initialize tabs
+    	$('ul.tabs').tabs();
+    	 $('ul.tabs').tabs('select_tab', 'popular_poems_div');
+
 		$http.post("http://localhost:8080/rest/poem/newpoems", {})
     	.then(function(response) {
     	poems = response.data;

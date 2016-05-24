@@ -30,6 +30,7 @@ var templateapp = angular.module('templateapp',['ngDialog','ngRoute']);
 
     templateapp.service('LoginService', function(){
         this.logged = false;
+        this.subscriptions = {};
 
         this.setLogged = function() {
             this.logged = true;
@@ -42,6 +43,14 @@ var templateapp = angular.module('templateapp',['ngDialog','ngRoute']);
         this.getLogStatus = function() {
             return this.logged;
         }
+
+        this.getSubscriptions=function(){
+            return this.subscriptions;
+        }
+        this.setSubscriptions=function(subs){
+            this.subscriptions=subs;
+        }
+
     });
 
     templateapp.factory('PoemDescFactory', function() {

@@ -67,10 +67,12 @@ angular.module('templateapp').directive("upperNavigation", function($rootScope){
 			respond = JSON.stringify(response.data);
 			var result = JSON.parse(respond);
 			token = result.token;
+
 			if (result.result=="OK" && token!="") {
 				Materialize.toast('Логин успешен!', 4500);
 				localStorage['token'] = token; // only strings
 				//$scope.logged = true;
+				LoginService.setSubscriptions = result.genres;
 				$('#modal1').closeModal();
 				$scope.showlogged();
 			}
