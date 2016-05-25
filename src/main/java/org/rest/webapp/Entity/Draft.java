@@ -20,7 +20,7 @@ public class Draft {
     @GeneratedValue
     private long id;
 
-    @Column
+    @Column(length = 800)
     private String content;
 
     @Column
@@ -33,6 +33,7 @@ public class Draft {
     @CollectionTable(joinColumns = @JoinColumn(name="id"))
     @Fetch(value = FetchMode.SUBSELECT)
     private List<String> hashtags = new ArrayList<String>();
+
 
     @ManyToOne
     @JoinColumn
@@ -76,5 +77,13 @@ public class Draft {
 
     public void setHashtags(List<String> hashtags) {
         this.hashtags = hashtags;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

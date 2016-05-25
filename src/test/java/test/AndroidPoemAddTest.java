@@ -1,15 +1,16 @@
+package test;
+
 import org.junit.Test;
 import org.rest.webapp.Entity.Poem;
 import org.rest.webapp.Entity.User;
 import org.rest.webapp.Services.PoemService;
 import org.rest.webapp.Services.UserService;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * Created by Ivan on 12/20/2015.
  */
-import java.util.Date;
-
-import static org.junit.Assert.*;
 public class AndroidPoemAddTest {
 
     @Test

@@ -1,7 +1,10 @@
 package org.rest.webapp.Services;
 
+import org.hibernate.Session;
 import org.rest.webapp.DAO.DraftDAO;
 import org.rest.webapp.Entity.Draft;
+
+import java.io.Serializable;
 
 /**
  * Created by Ivan on 5/24/2016.
@@ -9,8 +12,20 @@ import org.rest.webapp.Entity.Draft;
 public class DraftService {
     private DraftDAO draftDAO;
 
-    public DraftService(DraftDAO draftDAO) {
+    public DraftService() {
         draftDAO = new DraftDAO();
+    }
+
+    public boolean deleteById(Class<?> type, Serializable id) {
+        Session session = draftDAO.openCurrentSessionwithTransaction();
+        Object persistentInstance = session.load(type, id);
+        if (persistentInstance != null) {
+            session.delete(persistentInstance);
+            draftDAO.closeCurrentSessionwithTransaction();
+            return true;
+        }
+        draftDAO.closeCurrentSessionwithTransaction();
+        return false;
     }
 
     public void persist(Draft draft) {
@@ -28,6 +43,8 @@ public class DraftService {
         draftDAO.delete(draft);
         draftDAO.closeCurrentSessionwithTransaction();
     }
+
+
 
 
 }

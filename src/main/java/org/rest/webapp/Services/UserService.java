@@ -1,10 +1,13 @@
 package org.rest.webapp.Services;
 
 import org.hibernate.Criteria;
+import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.rest.webapp.DAO.UserDAO;
+import org.rest.webapp.Entity.Draft;
 import org.rest.webapp.Entity.User;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -66,6 +69,31 @@ public class UserService {
         List<User> list = userDAO.getCurrentSession().createCriteria(User.class).list();
         userDAO.closeCurrentSessionwithTransaction();
         return list;
+    }
+
+    public Draft getPersistedDraft(Long number) {
+        userDAO.openCurrentSessionwithTransaction();
+        Session session = userDAO.getCurrentSession();
+        Serializable id = new Long(number);
+        Draft persistentInstance = (Draft) session.load(Draft.class, id);
+        if (persistentInstance!=null) {
+            userDAO.closeCurrentSessionwithTransaction();
+            return persistentInstance;
+        }
+        else {
+            userDAO.closeCurrentSessionwithTransaction();
+            return null;
+        }
+    }
+    public boolean deletePersistedDraft(List<Object> list) {
+        userDAO.openCurrentSessionwithTransaction();
+        User user = (User) list.get(0);
+        Draft draft = (Draft) list.get(1);
+        user.getDrafts().remove(draft);
+        userDAO.getCurrentSession().delete(draft);
+        userDAO.closeCurrentSessionwithTransaction();
+        return true;
+
     }
 
 

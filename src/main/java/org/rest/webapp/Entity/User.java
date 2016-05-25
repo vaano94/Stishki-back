@@ -50,8 +50,9 @@ public class User {
     @Cascade(org.hibernate.annotations.CascadeType.ALL )
     private Set<Poem> poems = new HashSet<Poem>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    // cascade = CascadeType.ALL
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "user", fetch = FetchType.EAGER, orphanRemoval=true)
+    //@Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<Draft> drafts = new ArrayList<Draft>();
 
     public List<Draft> getDrafts() {
