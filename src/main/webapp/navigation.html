@@ -7,10 +7,8 @@
                 <form novalidate class="css-form">
                     <div class="input-field">
                     <!-- ng-change="send(hashtags.tags)" !-->
-                    <input id="search" type="text" ng-model="hashtags.tags" 
-                    
-                     required>
-                    <label for="search align-left"><i class="material-icons">search</i></label>
+                    <input id="search" type="text" ng-model="hashtags.tags" required>
+                    <label for="search"><i class="material-icons">search</i></label>
                     <!-- <i class="material-icons">close</i> -->
                     </div>
                 </form>
@@ -19,8 +17,8 @@
         <!--ng-change="sendhashtags(hashtags.tags)" !-->
             
             <li><a class="blue-grey-text text-darken-3" href="collapsible.html" ng-show="logged">Карта</a></li>
-            <li><a class="blue-grey-text text-darken-3" href="collapsible.html" ng-show="logged">Аудио</a></li>
-            <li><a class="blue-grey-text text-darken-3" href="collapsible.html" ng-show="logged">Черновики</a></li>
+            <!--<li><a class="blue-grey-text text-darken-3" href="collapsible.html" ng-show="logged">Аудио</a></li>-->
+            <li><a class="blue-grey-text text-darken-3" href="#drafts" ng-show="logged">Черновики</a></li>
             <li><a class="blue-grey-text text-darken-3" href="#userinfo" ng-show="logged">Мой профиль</a></li>
             <li><a class="blue-grey-text text-darken-3" href="#registration" ng-show="!logged">Регистрация</a></li>
             <!-- Modal Trigger -->

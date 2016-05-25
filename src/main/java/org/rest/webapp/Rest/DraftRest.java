@@ -48,6 +48,9 @@ public class DraftRest {
                     draft.put("id",d.getId());
                     draftArray.put(draft);
                 }
+                result.put("result","OK");
+                result.put("drafts", draftArray);
+                return result.toString();
             }
 
 

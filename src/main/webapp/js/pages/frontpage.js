@@ -67,7 +67,7 @@ app.service('PoemDataService', function($window) {
 			// Another
 			case 'Another': this.poemType='Вольный'; break;
 
-			default this.poemType = 'Unknown'; break;
+			default: this.poemType = 'Unknown'; break;
 		}
 		//this.poemType = poem;
 		localStorage['poemtype'] = poem; // only strings

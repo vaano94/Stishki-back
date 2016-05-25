@@ -121,5 +121,11 @@ angular.module('templateapp').controller('PoemFieldController', function($scope,
 			});
 		}
 
+	$scope.PreSaveDraft = function (id) {
+		toDelete = id;
+		console.log(toDelete);
+
+	}
+
 	});
 

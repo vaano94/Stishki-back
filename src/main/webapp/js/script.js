@@ -17,6 +17,9 @@ var templateapp = angular.module('templateapp',['ngDialog','ngRoute']);
             .when('/userinfo', {
                templateUrl: 'userinfo.html'
             })
+            .when('/drafts',  {
+                templateUrl: 'draft.tmp.html'
+            })
             .when('/registration', {templateUrl: 'registration.html'});
 
     }]);

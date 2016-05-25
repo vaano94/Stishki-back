@@ -1,0 +1,69 @@
+<div ng-controller="DraftController as draftCtrl" class="main-container row" ng-init="getDrafts()">
+<div class="col s12 m4 l4 left-draft scrollable hvr-glow">
+    <h2 class="center-align flow-text" style="font-size:2.5em">Все черновики</h2>
+        <div class="row">
+            <div ng-repeat="x in DraftData track by $index" class="container">
+                <div class="row ">
+                <div id="draft{{x.id}}">
+                    <div class="card yellow lighten-4 hoverable">
+                        <!-- Card content !-->
+                        <div class="right-align yellow lighten-4">
+                            <a><i class="small material-icons" id="{{x.id}}" ng-click="PreDeleteDraft(x.id)" style="color: #a9a850; cursor:pointer">delete</i></a></div>
+                        <div id="{{$index}}" class="card-content white-text yellow lighten-4 truncate" ng-click="draftCtrl.showDraft($index)">
+                            <p ng-repeat="line in x.content" ng-show="{{$index<=4}}" class="blue-grey-text text-darken-3"> {{line}} </p>
+                        </div>
+                        <div class="center-align hvr-underline-reveal" ng-show="{{$index>=4}}" style="cursor:s-resize; width: 100%;"><h5 class="center-align">...</h5></div>
+                        <!-- Card action !-->
+                        <div class="card-action yellow lighten-4">
+                        <span ng-repeat="tag in x.hashtags" style="float:right">
+                          <a class="right-align"  id="tagId" >#{{tag}}</a>
+                        </span>
+                        <div style="height:3%"></div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+
+</div>
+<div class="col s12 m8 l8 right-draft hvr-glow scrollable">
+    <div class="container">
+        <div class="row">
+            <h2 class="center-align flow-text" style="font-size:2.5em">{{DisplayedDraft.genre}}</h2>
+            <div ng-repeat="line in DisplayedDraft.content">
+            <p class="center-align flow-text" style="font-size:1.625em">{{line}}</p>
+            </div>
+            <div class="row center-align">
+            <span class="center-align" ng-repeat="tag in DisplayedDraft.hashtags">
+              <a id="sub_tagId">#{{tag}}</a>
+            </span>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="center-align" style="bottom: 0; position: relative">
+                <!--<div class="row center-align">-->
+                    <a class="waves-effect waves-light btn center-align orange accent-2" ng-show="draftCtrl.showChgBtn">Редактировать</a>
+               <!-- </div>-->
+            </div>
+        </div>
+    </div>
+
+</div>
+
+    <div class="fixed-action-btn" ng-click="clickToOpen()" ng-show="ctrlLoggedStatus()" style="bottom: 45px; right: 24px;">
+        <a class="btn-floating btn-large red">
+            <i class=" material-icons">mode_edit</i>
+        </a>
+    </div>
+
+</div>
+
+<div id="draft_delete_dialog" class="modal blue-grey-text text-darken-3">
+<p>Do you want to delete me?</p>
+</div>
