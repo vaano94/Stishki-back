@@ -71,6 +71,53 @@ var templateapp = angular.module('templateapp',['ngDialog','ngRoute']);
         return itemsService;
     });
 
+    templateapp.service('DraftDelService', function($http){
+        this.deleteId = 0;
+        this.indexId = 0;
+        this.DraftData = [];
+        this.getDeleteId = function(){
+            return this.deleteId;
+        }
+        this.setDeleteId = function(id){
+            this.deleteId= id;
+        }
+        this.setIndexId = function (id) {
+            this.indexId=id;
+        }
+        this.getIndexId = function(){
+            return this.indexId;
+        }
+        this.downloadDraftData = function(callback) {
+            token = localStorage["token"] || "";
+            data = {"token":token};
+            this.DraftData = [];
+            $http.post("http://localhost:8080/rest/drafts/get", data)
+                .then(function(response) {
+                    //raw = response.data.drafts;
+                    respond = JSON.stringify(response.data);
+                    result = JSON.parse(respond);
+                    console.log(result);
+                    for (i = 0; i < result.drafts.length; i++) {
+                        result.drafts[i].content = result.drafts[i].content.split("\n");
+                        //$scope.DraftData.push(result.drafts[i]);
+                    }
+                    /*for (i=0;i<result.drafts.length;i++) {
+                        this.DraftData.push(result.drafts[i]);
+                    }*/
+                    this.DraftData = result.drafts;
+                    callback(this.DraftData);
+                    //return this.DraftData;
+                });
+        }
+        this.setDraftData = function(data) {
+            this.DraftData = data;
+        }
+        this.getDraftData = function(){
+            return DraftData;
+        }
+
+    });
+
     templateapp.service('PoemDataService', function() {
         this.poemType = localStorage['poemtype'] || "";
         this.setPoemType = function(poem) {

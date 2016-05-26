@@ -8,11 +8,11 @@
                     <div class="card yellow lighten-4 hoverable">
                         <!-- Card content !-->
                         <div class="right-align yellow lighten-4">
-                            <a><i class="small material-icons" id="{{x.id}}" ng-click="PreDeleteDraft(x.id)" style="color: #a9a850; cursor:pointer">delete</i></a></div>
+                            <a><i class="small material-icons" id="{{x.id}}" ng-click="PreDeleteDraft(x.id,$index)" style="color: #a9a850; cursor:pointer">delete</i></a></div>
                         <div id="{{$index}}" class="card-content white-text yellow lighten-4 truncate" ng-click="draftCtrl.showDraft($index)">
                             <p ng-repeat="line in x.content" ng-show="{{$index<=4}}" class="blue-grey-text text-darken-3"> {{line}} </p>
                         </div>
-                        <div class="center-align hvr-underline-reveal" ng-show="{{$index>=4}}" style="cursor:s-resize; width: 100%;"><h5 class="center-align">...</h5></div>
+                        <div class="center-align hvr-underline-reveal" ng-show="{{x.content.length>=4}}" style="cursor:s-resize; width: 100%;"><h5 class="center-align">...</h5></div>
                         <!-- Card action !-->
                         <div class="card-action yellow lighten-4">
                         <span ng-repeat="tag in x.hashtags" style="float:right">
@@ -54,16 +54,14 @@
         </div>
     </div>
 
+
 </div>
 
-    <div class="fixed-action-btn" ng-click="clickToOpen()" ng-show="ctrlLoggedStatus()" style="bottom: 45px; right: 24px;">
-        <a class="btn-floating btn-large red">
+    <div class="fixed-action-btn" ng-click="clickToOpen()"  >
+        <a class="btn-floating btn-large waves-effect waves-light red" >
             <i class=" material-icons">mode_edit</i>
         </a>
     </div>
 
-</div>
 
-<div id="draft_delete_dialog" class="modal blue-grey-text text-darken-3">
-<p>Do you want to delete me?</p>
 </div>
