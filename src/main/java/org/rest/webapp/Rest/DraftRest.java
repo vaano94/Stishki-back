@@ -5,6 +5,7 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.rest.webapp.Entity.Draft;
 import org.rest.webapp.Entity.User;
+import org.rest.webapp.Services.DraftService;
 import org.rest.webapp.Services.UserService;
 
 import javax.ws.rs.Consumes;
@@ -13,6 +14,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -38,7 +40,7 @@ public class DraftRest {
                 for (Draft d: drafts) {
                     JSONObject draft = new JSONObject();
                     draft.put("content", d.getContent());
-                    draft.put("date", d.getDate());
+                    draft.put("date", d.getDate().getTime());
                     draft.put("genre",d.getGenre());
                     JSONArray drafthashtags = new JSONArray();
                     for (String tag : d.getHashtags()) {
@@ -59,6 +61,81 @@ public class DraftRest {
             e.printStackTrace();
         }
 
+        return result.toString();
+    }
+
+    @POST
+    @Path("/save")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String saveDraft(String userData) {
+        UserService userService = new UserService();
+        DraftService draftService = new DraftService();
+        JSONObject result = new JSONObject();
+        try {
+            result.put("result", "BAD");
+            JSONObject data = new JSONObject(userData);
+            String token = data.getString("token");
+            User user = userService.getByToken(token);
+            if (user != null) {
+                JSONObject JSONdraft = data.getJSONObject("draft");
+                Draft draft = new Draft();
+                    String[] hashtags = JSONdraft.getString("hashtags").split(" ");
+                    ArrayList<String> tags = new ArrayList<String>();
+                    for(int i=0;i<hashtags.length;i++) {
+                        tags.add(hashtags[i]);
+                    }
+                    draft.setHashtags(tags);
+                    draft.setDate(new Date());
+                    draft.setContent(JSONdraft.getString("content"));
+                    draft.setUser(user);
+                    draftService.persist(draft);
+                    userService.update(user);
+                    result.put("result","OK");
+            }
+        }
+        catch(JSONException e) {
+            e.printStackTrace();
+            return result.toString();
+        }
+        return result.toString();
+    }
+
+    @POST
+    @Path("/update")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String updateDraft(String userData) {
+        UserService userService = new UserService();
+        DraftService draftService = new DraftService();
+        JSONObject result = new JSONObject();
+        try {
+            result.put("result", "BAD");
+            JSONObject data = new JSONObject(userData);
+            String token = data.getString("token");
+            User user = userService.getByToken(token);
+            if (user != null) {
+                JSONObject JSONdraft = data.getJSONObject("draft");
+                Draft draft = draftService.getDraftById(JSONdraft.getLong("id"));
+                if (draft!=null) {
+                    String[] hashtags = JSONdraft.getString("hashtags").split(" ");
+                    ArrayList<String> tags = new ArrayList<String>();
+                    for(int i=0;i<hashtags.length;i++) {
+                        tags.add(hashtags[i]);
+                    }
+                    draft.setHashtags(tags);
+                    draft.setDate(new Date());
+                    draft.setContent(JSONdraft.getString("content"));
+                    draftService.update(draft);
+                    userService.update(user);
+                    result.put("result","OK");
+                }
+            }
+        }
+        catch(JSONException e) {
+            e.printStackTrace();
+            return result.toString();
+        }
         return result.toString();
     }
 

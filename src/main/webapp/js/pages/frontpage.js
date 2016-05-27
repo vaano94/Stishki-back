@@ -210,7 +210,8 @@ app.controller('dataFetchController', function($scope, $http, $interval, LoginSe
 				//$scope.PoemData = response.data.poems;
 				poemFromHash = response.data.poems;
         		for (var i = 0; i < toParse.length; i++) {
-        		toParse[i].content = toParse[i].content.split("\n");
+        			toParse[i].content = toParse[i].content.split("\n");
+					toParse[i].date = new Date(toParse[i].date);
         		};
         		
         		$scope.PoemData = toParse; 

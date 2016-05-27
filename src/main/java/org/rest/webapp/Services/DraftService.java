@@ -1,6 +1,7 @@
 package org.rest.webapp.Services;
 
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.rest.webapp.DAO.DraftDAO;
 import org.rest.webapp.Entity.Draft;
 
@@ -26,6 +27,13 @@ public class DraftService {
         }
         draftDAO.closeCurrentSessionwithTransaction();
         return false;
+    }
+
+    public Draft getDraftById(long id) {
+        draftDAO.openCurrentSessionwithTransaction();
+        Draft draft = (Draft) draftDAO.getCurrentSession().createCriteria(Draft.class).add(Restrictions.eq("id",id)).uniqueResult();
+        draftDAO.closeCurrentSessionwithTransaction();
+        return draft;
     }
 
     public void persist(Draft draft) {

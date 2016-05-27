@@ -118,6 +118,16 @@ var templateapp = angular.module('templateapp',['ngDialog','ngRoute']);
 
     });
 
+    templateapp.service('DraftExchangeService', function(){
+        this.Draft = {};
+        this.setDraft = function(draft){
+            this.Draft = draft;
+        }
+        this.getDraft =function(){
+            return this.Draft;
+        }
+    });
+
     templateapp.service('PoemDataService', function() {
         this.poemType = localStorage['poemtype'] || "";
         this.setPoemType = function(poem) {

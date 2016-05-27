@@ -1,44 +1,34 @@
 /**
  * Created by Ivan on 5/25/2016.
  */
-angular.module('templateapp').controller('DraftController', function($scope, $http, $interval, PoemDataService,DraftDelService, ngDialog) {
+angular.module('templateapp').controller('DraftController', function($scope, $http, $interval, PoemDataService,DraftDelService,DraftExchangeService, ngDialog) {
     $scope.DraftData = [];
     $scope.DisplayedDraft = {};
     $scope.DisplayedDraft.content="";
     $scope.toDelete = 0;
+    $scope.displayedGenre = "";
     this.showChgBtn = false;
 
     $scope.getDrafts = function() {
         DraftDelService.downloadDraftData($scope.renderDrafts);
-       /* if ($scope.DraftData.length==undefined) {
-            token = localStorage["token"] || "";
-            data = {"token": token};
-            $http.post("http://localhost:8080/rest/drafts/get", data)
-                .then(function (response) {
-                    //raw = response.data.drafts;
-                    respond = JSON.stringify(response.data);
-                    result = JSON.parse(respond);
-                    console.log(result);
-                    for (i = 0; i < result.drafts.length; i++) {
-                        result.drafts[i].content = result.drafts[i].content.split("\n");
-                        //$scope.DraftData.push(result.drafts[i]);
-                    }
-                    $scope.DraftData = result.drafts;
-                    DraftDelService.setDraftData($scope.DraftData);
-                });
-        }*/
-        //$scope.DraftData = DraftDelService.downloadDraftData();
     };
     $scope.renderDrafts = function(param){
         $scope.DraftData = param;
-    }
+    };
+
+    $scope.sendToEdit = function(){
+        console.log($scope.DisplayedDraft);
+        DraftExchangeService.setDraft($scope.DisplayedDraft);
+    };
 
     this.showDraft = function(event) {
         elementId = event;
         $scope.DisplayedDraft = $scope.DraftData[elementId];
         $scope.DisplayedDraft.text = "";
+
         PoemDataService.setPoemType($scope.DraftData[elementId].genre);
-        $scope.DisplayedDraft.genre = PoemDataService.getPoemType();
+        //$scope.DisplayedDraft.genre = PoemDataService.getPoemType();
+        $scope.displayedGenre = PoemDataService.getPoemType();
         /*for (i=0;i<$scope.DisplayedDraft.content.length;i++){
             $scope.DisplayedDraft.text += $scope.DisplayedDraft.content[i] + '\n';
         }

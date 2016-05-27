@@ -8,7 +8,10 @@
                     <div class="card yellow lighten-4 hoverable">
                         <!-- Card content !-->
                         <div class="right-align yellow lighten-4">
-                            <a><i class="small material-icons" id="{{x.id}}" ng-click="PreDeleteDraft(x.id,$index)" style="color: #a9a850; cursor:pointer">delete</i></a></div>
+                                {{x.date|date:'dd-MM-yy'}}
+                                <a ><i class="small material-icons" id="{{x.id}}" ng-click="PreDeleteDraft(x.id,$index)" style="color: #a9a850; cursor:pointer">delete</i></a>
+                        </div>
+
                         <div id="{{$index}}" class="card-content white-text yellow lighten-4 truncate" ng-click="draftCtrl.showDraft($index)">
                             <p ng-repeat="line in x.content" ng-show="{{$index<=4}}" class="blue-grey-text text-darken-3"> {{line}} </p>
                         </div>
@@ -16,7 +19,7 @@
                         <!-- Card action !-->
                         <div class="card-action yellow lighten-4">
                         <span ng-repeat="tag in x.hashtags" style="float:right">
-                          <a class="right-align"  id="tagId" >#{{tag}}</a>
+                          <a class="right-align" ng-show="{{tag.length>0}}" id="tagId" >#{{tag}}</a>
                         </span>
                         <div style="height:3%"></div>
                         </div>
@@ -30,7 +33,7 @@
 <div class="col s12 m8 l8 right-draft hvr-glow scrollable">
     <div class="container">
         <div class="row">
-            <h2 class="center-align flow-text" style="font-size:2.5em">{{DisplayedDraft.genre}}</h2>
+            <h2 class="center-align flow-text" style="font-size:2.5em">{{displayedGenre}}</h2>
             <div ng-repeat="line in DisplayedDraft.content">
             <p class="center-align flow-text" style="font-size:1.625em">{{line}}</p>
             </div>
@@ -48,7 +51,7 @@
         <div class="row">
             <div class="center-align" style="bottom: 0; position: relative">
                 <!--<div class="row center-align">-->
-                    <a class="waves-effect waves-light btn center-align orange accent-2" ng-show="draftCtrl.showChgBtn">Редактировать</a>
+                    <a class="waves-effect waves-light btn center-align orange accent-2" href="#b" ng-click="sendToEdit()" ng-show="draftCtrl.showChgBtn">Редактировать</a>
                <!-- </div>-->
             </div>
         </div>

@@ -1,7 +1,7 @@
 /**
  * Created by Ivan on 4/27/2016.
  */
-angular.module('templateapp').controller('PoemChooseController',function($scope, $http, ngDialog, PoemDescFactory, PoemDataService){
+angular.module('templateapp').controller('PoemChooseController',function($scope, $http, ngDialog, PoemDescFactory, DraftExchangeService, PoemDataService){
 	//$scope.chooseData = 'abc';
 
 	$scope.showPoemDescription = function(event) {
@@ -39,6 +39,7 @@ angular.module('templateapp').controller('PoemChooseController',function($scope,
 		$scope.setType = function(event) {
 			console.log(event.target.id);
 			PoemDataService.setPoemType(event.target.id);
+			DraftExchangeService.setDraft({});
 		}
 
 
