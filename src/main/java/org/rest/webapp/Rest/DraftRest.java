@@ -13,9 +13,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Ivan on 5/24/2016.
@@ -36,7 +34,7 @@ public class DraftRest {
             User user = userService.getByToken(details.getString("token"));
             JSONArray draftArray = new JSONArray();
             if (user!=null) {
-                List<Draft> drafts = user.getDrafts();
+                Set<Draft> drafts = user.getDrafts();
                 for (Draft d: drafts) {
                     JSONObject draft = new JSONObject();
                     draft.put("content", d.getContent());

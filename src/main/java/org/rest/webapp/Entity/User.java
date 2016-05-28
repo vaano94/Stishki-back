@@ -7,10 +7,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.ws.rs.DefaultValue;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Ivan on 10/8/2015.
@@ -48,18 +45,20 @@ public class User {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
     @Cascade(org.hibernate.annotations.CascadeType.ALL )
+    @Fetch(FetchMode.SELECT)
     private Set<Poem> poems = new HashSet<Poem>();
 
     // cascade = CascadeType.ALL
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "user", fetch = FetchType.EAGER, orphanRemoval=true)
     //@Cascade(org.hibernate.annotations.CascadeType.ALL)
-    private List<Draft> drafts = new ArrayList<Draft>();
+    @Fetch(FetchMode.SELECT)
+    private Set<Draft> drafts = new TreeSet<Draft>();
 
-    public List<Draft> getDrafts() {
+    public Set<Draft> getDrafts() {
         return drafts;
     }
 
-    public void setDrafts(List<Draft> drafts) {
+    public void setDrafts(Set<Draft> drafts) {
         this.drafts = drafts;
     }
 

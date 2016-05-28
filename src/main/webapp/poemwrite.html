@@ -69,7 +69,7 @@
 	       <div class="container center-align">
 		       	<div class="input-field">
 		          <!-- <i class="material-icons prefix">account_circle</i> -->
-		          <input type="text" id="firstline" ng-keypress="addInputField($event)" style="font-size:1.625em" class="validate flow-text">
+		          <input type="text" ng-model="firstline" id="firstline" ng-keypress="addInputField($event)" style="font-size:1.625em" class="validate flow-text">
 		          </div>
 	       </div>
 	       
@@ -80,12 +80,12 @@
 	       	   </div>
 	       </div>
 
-			<pre>{{lines | json}}</pre>
 
 	       </form>
 
 		<script type="text/ng-template" id="input.tpl.html">
         <input type="text" ng-keypress="addTagField($event)" style="font-size:1.625em" class="validate flow-text">
+        <h6 class="purple" ng-show="linesConfirm[0]">✓</h6>
     	</script>
 
       </div>
@@ -105,7 +105,6 @@
       			<input type="text" id="form{{$index}}" name="form{{$index}}" ng-model="forms[$index]">
     			</div>
 		    </div>
-			<pre>{{forms | json}}</pre>
 		</form>
 		</div>
 
@@ -123,7 +122,13 @@
 			<div class="row center-align">
 			<a class="col s12 waves-effect waves-light btn center-align orange accent-2" ng-click="sendPoem()">Отправить</a>
 			</div>
+
+			<div class="row center-align">
+				<a class="col s12 waves-effect waves-light btn center-align orange accent-2" ng-click="askGeo()">Ask geo</a>
+			</div>
 		</div>
+
+
 
       	</div>
       </div>

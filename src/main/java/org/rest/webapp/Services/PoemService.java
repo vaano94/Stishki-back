@@ -50,14 +50,14 @@ public class PoemService {
     }
     public List<Poem> getNewOnes() {
         poemDAO.openCurrentSessionwithTransaction();
-        List<Poem> poems = poemDAO.getCurrentSession().createCriteria(Poem.class).addOrder(Order.desc("id")).setMaxResults(40).list();
+        List<Poem> poems = poemDAO.getCurrentSession().createCriteria(Poem.class).addOrder(Order.desc("id")).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).setMaxResults(40).list();
         poemDAO.closeCurrentSessionwithTransaction();
         return poems;
     }
 
     public List<Poem> getByOffset(int startOffset) {
         poemDAO.openCurrentSessionwithTransaction();
-        Criteria criteria = poemDAO.getCurrentSession().createCriteria(Poem.class).addOrder(Order.desc("id"));
+        Criteria criteria = poemDAO.getCurrentSession().createCriteria(Poem.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).addOrder(Order.desc("id"));
         criteria.setFirstResult(startOffset);
         criteria.setMaxResults(40);
         List<Poem> poems = criteria.list();
@@ -75,10 +75,11 @@ public class PoemService {
             disjunction.add(Restrictions.eq("genre", s));
         }
         Criteria criteria = poemDAO.getCurrentSession().createCriteria(Poem.class)
-               .add(disjunction)
-               .addOrder(Order.desc("id"))
-               .setFirstResult(offset)
-               .setMaxResults(offset+40);
+                .add(disjunction)
+                .addOrder(Order.desc("id"))
+                .setFirstResult(offset)
+                .setMaxResults(offset + 40)
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         List<Poem> poems = criteria.list();
         poemDAO.closeCurrentSessionwithTransaction();
         return poems;
@@ -101,7 +102,7 @@ public class PoemService {
         }
         //System.out.println(query);
 
-        List<Poem> poems = poemDAO.getCurrentSession().createQuery(query).list();
+        List<Poem> poems = poemDAO.getCurrentSession().createQuery(query).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
         poemDAO.closeCurrentSessionwithTransaction();
         return poems;
     }

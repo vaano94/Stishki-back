@@ -3,12 +3,16 @@ package org.rest.webapp.Rest;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.rest.webapp.Entity.Draft;
 import org.rest.webapp.Entity.Poem;
 import org.rest.webapp.Entity.User;
 import org.rest.webapp.Services.PoemService;
 import org.rest.webapp.Services.UserService;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.Date;
@@ -50,6 +54,17 @@ public class PoemChangeService {
                 poem.getHashtags().add(s);
             }
             user.getPoems().add(poem);
+
+            // check if poem was send from draft
+            boolean fromDraft = result.getBoolean("usedDraft");
+            if (fromDraft) {
+                Long number = result.getLong("id");
+                Draft persistentInstance = userService.getPersistedDraft(number);
+                List<Object> list = new ArrayList<Object>();
+                list.add(user);
+                list.add(persistentInstance);
+                userService.deletePersistedDraft(list);
+            }
 
             PoemService poemService = new PoemService();
             poemService.persist(poem);

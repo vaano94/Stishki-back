@@ -20,6 +20,10 @@ var templateapp = angular.module('templateapp',['ngDialog','ngRoute']);
             .when('/drafts',  {
                 templateUrl: 'draft.tmp.html'
             })
+            .when('/map',  {
+                templateUrl: 'map.tmp.html'
+            })
+
             .when('/registration', {templateUrl: 'registration.html'});
 
     }]);
@@ -156,6 +160,33 @@ var templateapp = angular.module('templateapp',['ngDialog','ngRoute']);
 
             default: this.poemType = 'Unknown'; break;
         }
+        this.revertPoemType = function(poem) {
+            switch(poem) {
+            // Two-syllable rhymes
+            case 'Ямб': return 'Yamb'; break;
+            case 'Хорей': return 'Horey'; break;
+            // Three-syllable rhymes
+            case 'Амфибрахий': return 'Amphibrah'; break;
+            case 'Анапест': return 'Anapest'; break;
+            case 'Дактиль': return 'Daktil'; break;
+            // Pirozhok and Poroshok
+            case 'Порошок': return 'Powder'; break;
+            case 'Пирожок': return 'Cake'; break;
+            // Beliy and bezrifmy
+            case 'Белый стих': return 'White'; break;
+            case 'Верлибр': return 'Norhyme'; break;
+            // Stih v proze and Monorim
+            case 'В прозе': return 'Proza'; break;
+            case 'Монорим': return 'Monorhyme'; break;
+            // Acrostih and telestih
+            case 'Акростих': return 'Acro'; break;
+            case 'Телестих': return 'Tele'; break;
+            // Another
+            case 'Вольный': return 'Another'; break;
+
+            default: this.poemType = 'Unknown'; break;
+        }
+    }
             //this.poemType = poem;
             localStorage['poemtype'] = this.poemType; // only strings
             console.log(this.poemType);
@@ -164,6 +195,8 @@ var templateapp = angular.module('templateapp',['ngDialog','ngRoute']);
             this.poemType = localStorage['poemtype'] || "";
             return this.poemType;
         }
+
+
     });
 
     templateapp.service('LikeService', function($http){
