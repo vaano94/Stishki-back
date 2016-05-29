@@ -4,6 +4,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,7 +37,7 @@ public class PoemInfo {
     @Column(columnDefinition="TEXT")
     @ElementCollection (fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SUBSELECT)
-    private List<String> examples;
+    private List<String> examples = new ArrayList<String>();
 
 
     public String getImagePath() {

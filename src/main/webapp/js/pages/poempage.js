@@ -5,6 +5,7 @@ angular.module('templateapp').controller('PoemFieldController', function($scope,
 		var ctrl = this;
 		linescounter = 0;
 		counter = 0;
+		tagCounter = 0;
 		ctrl.displayedForms = [];
 		ctrl.displayedInputs = [];
 		//rules of writing depending on poem type
@@ -13,7 +14,7 @@ angular.module('templateapp').controller('PoemFieldController', function($scope,
 		$scope.type = "АБВ";
 		// array of rhymes from server
 		$scope.RhymeData = {};
-		$scope.firstline = {};
+		$scope.firstline = "";
 		// lines of text in input fields
 		$scope.lines = {};
 		$scope.lines.count=0;
@@ -21,6 +22,9 @@ angular.module('templateapp').controller('PoemFieldController', function($scope,
 		$scope.linesConfirm = [];
 		$scope.fromDraft = {};
 		$scope.usedDraft = false;
+		// determine whether or not display first letters of acro tele poem
+		$scope.acrotrue = false;
+		$scope.Acroword = "";
 
 
 
@@ -45,9 +49,13 @@ angular.module('templateapp').controller('PoemFieldController', function($scope,
 		$scope.prefillData = function(object) {
 			draft = object;
 			$("#firstline").val(draft.content[0]);
+			$scope.firstline= draft.content[0];
 			$scope.type = draft.genre;
 			for (i=1;i<draft.content.length;i++) {
 				ctrl.displayedInputs.push("input.tpl.html");
+				//$("#line"+i-1).val(draft.content[i]);
+				var innerindex = (i-1).toString();
+				$("#line"+innerindex).val(draft.content[i]);
 				$scope.lines[i-1] = (draft.content[i]);
 			}
 			for (i=0;i<draft.hashtags.length;i++) {
@@ -62,17 +70,18 @@ angular.module('templateapp').controller('PoemFieldController', function($scope,
 			$scope.fromDraft = DraftExchangeService.getDraft();
 			if (!$.isEmptyObject($scope.fromDraft)) {
 				$scope.prefillData($scope.fromDraft);
+				$scope.linesConfirm.push(false);
 				$scope.usedDraft = true;
-				$scope.linesConfirm.push(true);
 				$scope.type = PoemDataService.getPoemType();
 				$scope.rules = ValidateService.getRules($scope.type);
+				$scope.lines.count=$scope.fromDraft.content.length;
 
 			}
 			// если пришел из начального экрана
 			else {
 				$scope.type = PoemDataService.getPoemType();
 				$scope.existingRhyme = "";
-				$scope.linesConfirm.push(true);
+				$scope.linesConfirm.push(false);
 				ngDialog.close();
 				console.log("Type received from storage: " + $scope.type);
 				$scope.usedDraft = false;
@@ -83,41 +92,96 @@ angular.module('templateapp').controller('PoemFieldController', function($scope,
 		};
 
 		$scope.$watch('firstline', function() {
+			if ($scope.type=="Акростих" || $scope.type=="Телестих") {
+				$scope.acrotrue = true;
+				if ($scope.type=="Акростих") {
+					$scope.Acroword = $scope.firstline[0];
+				}
+				else {
+					$scope.Acroword = $scope.firstline[$scope.firstline.length];
+				}
+			}
 			if ($scope.rules.vowelPattern.length>0) {
 				firstIndex = $scope.rules.vowelPattern[0];
+				if ($scope.type=="Пирожок" || $scope.type=="Порошок") {
+					if ($("#firstline").val().length > 0) {
+						firstLinecounter = 0;
+						var text = $("#firstline").val();
+						for (i = 0; i < text.length; i++) {
+							if (text[i] == 'а' || text[i] == 'о' || text[i] == 'у' || text[i] == 'э' ||
+								text[i] == 'ы' || text[i] == 'е' || text[i] == 'ё' || text[i] == 'ю' ||
+								text[i] == 'я' || text[i] == 'и') {
+								firstLinecounter++;
+							}
+						}
+						if (firstLinecounter == $scope.rules.vowelPattern[0]) {
+							$scope.linesConfirm[0] = true;
+						}
+						else {
+							$scope.linesConfirm[0] = false;
+						}
+					}
+				}
 
 			}
 		},true);
 
 		$scope.$watch('lines', function(){
 			if ($scope.lines.count>0) {
-				if ($scope.rules.vowelPattern.length>0) {
-					for (i=1;i<$scope.rules.vowelPattern.length;i++) {
-						// Check if string contains enough vowels					
-						if (countVowels(i)) {
-							// display check element
-
+				if ($scope.type=="Акростих" || $scope.type=="Телестих") {
+					$scope.acrotrue = true;
+					for (var key in $scope.lines) {
+						console.log($scope.lines);
+						if ($scope.lines.hasOwnProperty(key)) {
+							if ($scope.type=="Акростих" && key!="count") {
+								$scope.Acroword+=$scope.lines[key][0];
+							}
+							if ($scope.type=="Телестих" && key!="count") {
+								$scope.Acroword+=$scope.lines[key][$scope.lines[key].length];
+							}
 						}
 					}
+				}
+				if ($scope.rules.vowelPattern.length>0) {
+					if ($scope.type=="Пирожок" || $scope.type=="Порошок") {
+						for (var key in $scope.lines) {
+							console.log($scope.lines);
+							if ($scope.lines.hasOwnProperty(key)) {
+								if ($scope.lines[key] == "" || key == "count" || $scope.lines[key] == "\n") {
+									continue;
+								}
+
+								if (countVowels(key)) {
+									$scope.linesConfirm[parseInt(key) + 1] = true;
+								}
+								else {
+									$scope.linesConfirm[parseInt(key) + 1] = false;
+								}
+							}
+						}
+					}
+
 				}	
 			}
 		}, true);
 
 		var countVowels = function(num) {
-			index = num-1;
-			text = $('#line'+index).val();
-			counter = 0;
-			for (i=0;i<text.length;i++) {
-				if (text[i]=='а'||text[i]=='о'||text[i]=='у'||text[i]=='э'||
-					text[i]=='ы'||text[i]=='е'||text[i]=='ё'||text[i]=='ю'||
-					text[i]=='я'||text[i]=='и') {
-					counter++;
+			index = num;
+			if ( $('#line'+index).length ) {
+				text = $('#line'+index).val();
+				counter = 0;
+				for (i=0;i<text.length;i++) {
+					if (text[i]=='а'||text[i]=='о'||text[i]=='у'||text[i]=='э'||
+						text[i]=='ы'||text[i]=='е'||text[i]=='ё'||text[i]=='ю'||
+						text[i]=='я'||text[i]=='и') {
+						counter++;
+					}
 				}
+				if (counter==$scope.rules.vowelPattern[parseInt(num)+1]) {
+					return true;
+				}
+				else {return false;}
 			}
-			if (counter==rules.vowelPattern[num]) {
-				return true;
-			}
-			else {return false;}
 		}
 
 
@@ -128,12 +192,16 @@ angular.module('templateapp').controller('PoemFieldController', function($scope,
 			poemText = makeItCultural(poemText);
 			for (var key in $scope.lines) {
 				if ($scope.lines.hasOwnProperty(key)) {
-					if ($scope.lines[key]=="" || $scope.lines[key]=="\n") {continue;}
+					if ($scope.lines[key]=="" || key=="count" || $scope.lines[key]=="\n") {continue;}
 
 					text = makeItCultural($scope.lines[key]);
-					poemText += text + "\n";
+					
+					poemText+= text+"\n";
+				
 				}
 			}
+			poemText = poemText.slice(0, -1);
+			console.log(poemText);
 			//console.log(poemText);
 			// Grab Tags into single line
 			tags = "";
@@ -142,7 +210,7 @@ angular.module('templateapp').controller('PoemFieldController', function($scope,
 					tags += $scope.forms[key] + " ";
 				}
 			}
-			poemType = PoemDataService.getPoemType();;
+			poemType = PoemDataService.revertPoemType($scope.type);
 			token = localStorage['token'] || "";
 			draft = { "content": poemText, "genre": poemType, "hashtags": tags};
 			toSend = {"token": token, "draft":draft};
@@ -174,12 +242,15 @@ angular.module('templateapp').controller('PoemFieldController', function($scope,
 			}
 			for (var key in $scope.lines) {
 				if ($scope.lines.hasOwnProperty(key)) {
-					if ($scope.lines[key]=="" || $scope.lines[key]=="\n") {continue;}
+					if ($scope.lines[key]==""|| key=="count" || $scope.lines[key]=="\n") {continue;}
 					if ($scope.lines[key]=="!новаястрофа!") {poemText+= '          \n'; continue;} // 10 пробелов
 					text = makeItCultural($scope.lines[key]);
-					poemText += text + "\n";
+					poemText+= text+"\n";
 				}
 			}
+			// remove the last \n symbol
+			poemText = poemText.slice(0, -1);
+			console.log(poemText);
 			//console.log(poemText);
 			// Grab Tags into single line
 			tags = "";
@@ -188,7 +259,7 @@ angular.module('templateapp').controller('PoemFieldController', function($scope,
 					tags += $scope.forms[key] + " ";
 				}
 			}
-			poemType = $scope.fromDraft.genre;
+			poemType = PoemDataService.revertPoemType($scope.type);
 			token = localStorage['token'] || "";
 			draft = { "content": poemText, "genre": poemType, "hashtags": tags, "id":$scope.fromDraft.id};
 			toSend = {"token": token, "draft":draft};
@@ -210,20 +281,20 @@ angular.module('templateapp').controller('PoemFieldController', function($scope,
 
 
 		$scope.addTagField = function() {
-			if (counter == 3) {
+			if (tagCounter == 3) {
 				return;
 			}
-			counter ++;
+			tagCounter ++;
 			ctrl.displayedForms.push("form1.tpl.html");
 
 		};
 
 		$scope.delTagField = function() {
-			if (counter==0) {
+			if (tagCounter==0) {
 				return;
 			}
-			counter--;
-			delete $scope.forms[counter];
+			tagCounter--;
+			delete $scope.forms[tagCounter];
 			ctrl.displayedForms.pop();
 		};
 		
@@ -256,12 +327,13 @@ angular.module('templateapp').controller('PoemFieldController', function($scope,
 			poemText+=firstline+"\n";
 			for (var key in $scope.lines) {
 				if ($scope.lines.hasOwnProperty(key)) {
-					if ($scope.lines[key]=="" || $scope.lines[key]=="\n") {continue;}
+					if ($scope.lines[key]=="" || key=="count" || $scope.lines[key]=="\n") {continue;}
 					if ($scope.lines[key]=="!новаястрофа!" || ($scope.lines[key].indexOf("!новаястрофа!") > -1))
 					{poemText+= '          \n'; continue;} // 10 пробелов
-					poemText+= $scope.lines[key]+"\n";
+					poemText+= text+"\n";
 				}
 			}
+			poemText = poemText.slice(0, -1);
 			console.log(poemText);
 			// Grab Tags into single line
 			tags = "";
@@ -276,7 +348,7 @@ angular.module('templateapp').controller('PoemFieldController', function($scope,
 			token = localStorage['token'] || "";
 			// Take poem type
 			// Resolve poem type correctly
-			poemType = PoemDataService.reversePoemType($scope.type);
+			poemType = PoemDataService.revertPoemType($scope.type);
 			// Collect all in one
 			if ($scope.usedDraft==true) {
 				toSend = {"token":token, "poem":poemText,

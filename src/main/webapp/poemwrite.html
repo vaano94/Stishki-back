@@ -69,23 +69,28 @@
 	       <div class="container center-align">
 		       	<div class="input-field">
 		          <!-- <i class="material-icons prefix">account_circle</i> -->
-		          <input type="text" ng-model="firstline" id="firstline" ng-keypress="addInputField($event)" style="font-size:1.625em" class="validate flow-text">
+		          <input type="text" ng-model="firstline" id="firstline" ng-keypress="addInputField($event)" style="font-size:1.625em" class="col s11 flow-text">
+					<h5 class="col s1" style="color: purple;" ng-show="linesConfirm[0]">✓</h5>
 		          </div>
 	       </div>
 	       
 	       <div class="container center-align">
 		       <div ng-repeat="input in fieldctrl.displayedInputs track by $index">
-		       <input type="text" id="line{{$index}}" name="line{{$index}}" ng-model="lines[$index]" ng-keypress="addInputField($event)" style="font-size:1.625em" class="validate flow-text">
-		       <!-- <ng-include src="form"></ng-include> -->
+		       <input type="text" id="line{{$index}}" name="line{{$index}}" ng-model="lines[$index]" ng-keypress="addInputField($event)" style="font-size:1.625em" class="col s11 flow-text">
+				   <h5 class="col s1" style="color: purple;" ng-show="linesConfirm[$index+1]">✓</h5>
 	       	   </div>
 	       </div>
 
+			   <div class="row">
+			   <pre>{{lines | json}}</pre>
+			   </div>
+
+			<h4>{{Acroword}}</h4>
 
 	       </form>
 
 		<script type="text/ng-template" id="input.tpl.html">
         <input type="text" ng-keypress="addTagField($event)" style="font-size:1.625em" class="validate flow-text">
-        <h6 class="purple" ng-show="linesConfirm[0]">✓</h6>
     	</script>
 
       </div>

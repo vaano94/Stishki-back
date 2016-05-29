@@ -85,6 +85,7 @@ public class DraftRest {
                     }
                     draft.setHashtags(tags);
                     draft.setDate(new Date());
+                    draft.setGenre(JSONdraft.getString("genre"));
                     draft.setContent(JSONdraft.getString("content"));
                     draft.setUser(user);
                     draftService.persist(draft);

@@ -15,7 +15,7 @@
                         <div id="{{$index}}" class="card-content white-text yellow lighten-4 truncate" ng-click="draftCtrl.showDraft($index)">
                             <p ng-repeat="line in x.content" ng-show="{{$index<=4}}" class="blue-grey-text text-darken-3"> {{line}} </p>
                         </div>
-                        <div class="center-align hvr-underline-reveal" ng-show="{{x.content.length>=4}}" style="cursor:s-resize; width: 100%;"><h5 class="center-align">...</h5></div>
+                        <div class="center-align hvr-underline-reveal" ng-show="{{x.content.length>4}}" style="cursor:s-resize; width: 100%;"><h5 class="center-align">...</h5></div>
                         <!-- Card action !-->
                         <div class="card-action yellow lighten-4">
                         <span ng-repeat="tag in x.hashtags" style="float:right">
