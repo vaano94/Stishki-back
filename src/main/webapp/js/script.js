@@ -154,7 +154,7 @@ var templateapp = angular.module('templateapp',['ngDialog','ngRoute']);
             case 'Monorhyme': this.poemType='Монорим'; break;
             // Acrostih and telestih
             case 'Acro': this.poemType='Акростих'; break;
-            case 'Телестих': this.poemType='Телестих'; break;
+            case 'Tele': this.poemType='Телестих'; break;
             // Another
             case 'Another': this.poemType='Вольный'; break;
 

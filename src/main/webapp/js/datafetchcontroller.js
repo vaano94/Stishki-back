@@ -6,19 +6,47 @@ angular.module('templateapp').controller('dataFetchController', function($scope,
     $scope.PoemData = {};
     $scope.SubData = {};
     $scope.PopularData = {};
+    $scope.SearchData= {};
     $scope.subscriptions = {};
-
 
     $scope.clickToOpen = function () {
         ngDialog.open({ template: 'poemchoose.html', className: 'ngdialog-theme-default', width:'70%' });
     };
 
-    $interval(getByTagTest,2000);
+    //$interval(getByTagTest,2000);
 
     /*function callOnTimeout() {
      var height = $('#poem115').outerHeight(true);
      console.log("Card height is : " + height);
      }*/
+    $scope.searchByTagField = function(event) {
+        if (event.keyCode == 13) {
+            console.log("SEARCH_A ACTIVE");
+                tags = $('#tagsearch').val();
+                if ($scope.existingTag == tags || $('#tagsearch').val() == "") {
+                    return;
+                }
+                var data = {"hashtags": tags};
+                $http.post("http://localhost:8080/rest/poem/hashtags", data)
+                    .then(function (response) {
+
+                        raw = JSON.stringify(response.data);
+                        var result = JSON.parse(raw);
+                        //if (!respond.result=="BAD" && !result.poems.length==0) {
+                        toParse1 = result.poems;
+                        //$scope.PoemData = response.data.poems;
+                        //poemFromHash = response.data.poems;
+                        for (var i = 0; i < toParse1.length; i++) {
+                            toParse1[i].content = toParse1[i].content.split("\n");
+                        }
+
+
+                        $scope.SearchData = toParse1;
+                        $scope.existingTag = tags;
+                        //console.log($scope.PoemData)
+                    });
+        }
+    };
 
     function getByTagTest() {
         tags = $('#search').val();
@@ -37,7 +65,7 @@ angular.module('templateapp').controller('dataFetchController', function($scope,
                     toParse1[i].content = toParse1[i].content.split("\n");
                 };
 
-                $scope.PoemData = toParse1;
+                $scope.SearchData = toParse1;
                 $scope.existingTag = tags;
                 //console.log($scope.PoemData)
                 });
@@ -296,6 +324,7 @@ angular.module('templateapp').directive("scroll", function ($window, $http) {
                 }
                 $scope.$apply();
             }
+
         });
     };
 });

@@ -94,11 +94,14 @@ angular.module('templateapp').controller('PoemFieldController', function($scope,
 		$scope.$watch('firstline', function() {
 			if ($scope.type=="Акростих" || $scope.type=="Телестих") {
 				$scope.acrotrue = true;
+				$scope.firstLetter = [];
 				if ($scope.type=="Акростих") {
-					$scope.Acroword = $scope.firstline[0];
+					$scope.firstLetter=$scope.firstline[0];
+					$scope.Acroword = $scope.firstLetter;
 				}
 				else {
-					$scope.Acroword = $scope.firstline[$scope.firstline.length];
+					$scope.firstLetter=$scope.firstline[$scope.firstline.length-1];
+					$scope.Acroword = $scope.firstLetter;;
 				}
 			}
 			if ($scope.rules.vowelPattern.length>0) {
@@ -130,15 +133,25 @@ angular.module('templateapp').controller('PoemFieldController', function($scope,
 			if ($scope.lines.count>0) {
 				if ($scope.type=="Акростих" || $scope.type=="Телестих") {
 					$scope.acrotrue = true;
+					$scope.acroLetters=[];
+					$scope.Acroword = $scope.firstLetter.toString();
 					for (var key in $scope.lines) {
 						console.log($scope.lines);
 						if ($scope.lines.hasOwnProperty(key)) {
 							if ($scope.type=="Акростих" && key!="count") {
-								$scope.Acroword+=$scope.lines[key][0];
+								$scope.acroLetters[parseInt(key)]= $scope.lines[key][0];
 							}
 							if ($scope.type=="Телестих" && key!="count") {
-								$scope.Acroword+=$scope.lines[key][$scope.lines[key].length];
+								$scope.acroLetters[parseInt(key)]= $scope.lines[key][$scope.lines[key].length-1];
 							}
+						}
+					}
+					for (i=0;i<$scope.acroLetters.length;i++) {
+						if ($scope.acroLetters[i]==undefined) {
+							$scope.Acroword+="";
+						}
+						else {
+							$scope.Acroword += $scope.acroLetters[i];
 						}
 					}
 				}

@@ -8,11 +8,12 @@
    <button ng-click="dataCtrl.retrievePoems()">ServiceTest</button> -->
 
     <div class="row" scroll>
-        <div class="col s12">
+        <div class="">
             <ul class="tabs">
                 <li class="tab col s3 yellow lighten-4"><a class="active" id="new_a" href="#new_poems_div">НОВОЕ</a></li>
                 <li class="tab col s3 yellow lighten-4"><a href="#popular_poems_div" id="pop_a" ng-click="fetchFortyPopular()">ПОПУЛЯРНОЕ</a></li>
                 <li class="tab col s3 yellow lighten-4"><a href="#subs_poem_div" id="sub_a" ng-click="fetchFortySubs()">ПОДПИСКИ</a></li>
+                <li class="tab col s3 yellow lighten-4"><a href="#searchtag_div" id="search_a" ><i class="material-icons" style="position:relative;top:30%">search</i></a></li>
             </ul>
         <!-- <div id="test1" class="col s12">Test 1</div>
         <div id="test2" class="col s12">Test 2</div>
@@ -76,10 +77,22 @@
     </div>
 
 
-    <div class="row" id="subs_poems_div">
-        <div ng-repeat="x in SubData track by $index" class="container">
+    <div class="row" id="searchtag_div">
+        <div class="container">
+            <div class="row" style="margin:0 auto;">
+            <div class="nav-wrapper col s6 offset-s3">
+                <form novalidate class="css-form">
+                    <div class="input-field">
+                        <input id="tagsearch" type="text" ng-keypress="searchByTagField($event)" ng-model="hashtags.tags" placeholder="Поиск по тегам" required>
 
-            <div class="col s10" id="sub{{x.id}}">
+                    </div>
+                </form>
+            </div>
+            </div>
+        </div>
+
+        <div ng-repeat="x in SearchData track by $index" class="container">
+            <div class="col s10 offset-s1" id="search{{x.id}}">
                 <div class="card blue-grey darken-1 yellow lighten-4">
                     <!-- Card content !-->
                     <div class="card-content white-text yellow lighten-4">
@@ -89,13 +102,13 @@
                     <!-- Card action !-->
                     <div class="card-action yellow lighten-4">
                         <i class="material-icons">thumb_up</i>
-                        <a ng-model="likes.id" id="sub_like{{x.id}}" ng-click="updateLike(x.id,x.likes,$index)">{{x.likes}}</a>
+                        <a ng-model="likes.id" id="search_like{{x.id}}" ng-click="updateLike(x.id,x.likes,$index)">{{x.likes}}</a>
                         <i class="material-icons" >thumb_down</i>
-                        <a ng-model="dislikes.id" id="sub_dislike{{x.id}}" ng-click="updateDislike(x.id,x.dislikes,$index)">{{x.dislikes}}</a>
+                        <a ng-model="dislikes.id" id="search_dislike{{x.id}}" ng-click="updateDislike(x.id,x.dislikes,$index)">{{x.dislikes}}</a>
                         <!-- <h5 class="right-align">{{  x.hashtags  }}</h5> -->
             <span ng-repeat="tag in x.hashtags" style="float:right">
                 <!-- href="#poem{{x.id}}" !-->
-              <a class="right-align"  id="sub_tagId" ng-click="dataCtrl.getByHash(tag)">#{{tag}}</a>
+              <a class="right-align"  id="search_tagId" ng-click="dataCtrl.getByHash(tag)">#{{tag}}</a>
             </span>
                     </div>
                 </div>
@@ -103,6 +116,36 @@
         </div>
         <!-- End container !-->
     </div>
+
+
+            <div class="row" id="subs_poems_div">
+                <div ng-repeat="x in SubData track by $index" class="container">
+
+                    <div class="col s10" id="sub{{x.id}}">
+                        <div class="card blue-grey darken-1 yellow lighten-4">
+                            <!-- Card content !-->
+                            <div class="card-content white-text yellow lighten-4">
+                                <span class="card-title blue-grey-text text-darken-3">{{x.author}}</span>
+                                <p ng-repeat="line in x.content" class="blue-grey-text text-darken-3"> {{line}} </p>
+                            </div>
+                            <!-- Card action !-->
+                            <div class="card-action yellow lighten-4">
+                                <i class="material-icons">thumb_up</i>
+                                <a ng-model="likes.id" id="sub_like{{x.id}}" ng-click="updateLike(x.id,x.likes,$index)">{{x.likes}}</a>
+                                <i class="material-icons" >thumb_down</i>
+                                <a ng-model="dislikes.id" id="sub_dislike{{x.id}}" ng-click="updateDislike(x.id,x.dislikes,$index)">{{x.dislikes}}</a>
+                                <!-- <h5 class="right-align">{{  x.hashtags  }}</h5> -->
+            <span ng-repeat="tag in x.hashtags" style="float:right">
+                <!-- href="#poem{{x.id}}" !-->
+              <a class="right-align"  id="sub_tagId" ng-click="dataCtrl.getByHash(tag)">#{{tag}}</a>
+            </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End container !-->
+            </div>
+
 
     </div>
     <!--End column-->
