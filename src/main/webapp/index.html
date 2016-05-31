@@ -1,5 +1,5 @@
 <html ng-app="templateapp">
-<head>
+<header>
 
     <meta charset="UTF-8">
     <title>Page</title>
@@ -7,7 +7,7 @@
     <!--Import Google Icon Font-->
     <link href='https://fonts.googleapis.com/css?family=Roboto+Slab&subset=cyrillic,cyrillic-ext,latin' rel='stylesheet' type='text/css'>
     <!--Import materialize.css-->
-    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
     <!-- Icons !-->
     <link href="css/material_icons.css" rel="stylesheet">
 
@@ -29,6 +29,9 @@
     <script src="js/lib/ngDialog.js"></script>
     <!--Swearing-->
     <script src="js/lib/swear.js"></script>
+    <!--Masonry-->
+
+
 
     <script src="js/script.js"></script>
 
@@ -46,33 +49,20 @@
     <script src="js/pages/mappage.js"></script>
     <script src="js/poemvalidateservice.js"></script>
 
-</head>
-<main>
+</header>
+<main class="yellow lighten-5">
 <upper-navigation ></upper-navigation>
 <div ng-view></div>
 </main>
 <footer class="page-footer">
-    <div class="container">
-        <div class="row">
-            <div class="col l6 s12">
-                <h5 class="white-text">Footer Content</h5>
-                <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
-            </div>
-            <div class="col l4 offset-l2 s12">
-                <h5 class="white-text">Links</h5>
-                <ul>
-                    <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
-                    <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
-                    <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
-                    <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
+
     <div class="footer-copyright">
         <div class="container">
-            © 2014 Copyright Text
-            <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+            <div class="row">
+            <div class="col s4">©2016 Copyright Кравченко Иван</div>
+            <div class="col s3 offset-s5"><a href="http://vk.com/vaano"><img src="img/vk3232.png" style="margin-top: 0.5em"></a>
+            </div>
+            </div>
         </div>
     </div>
 </footer>

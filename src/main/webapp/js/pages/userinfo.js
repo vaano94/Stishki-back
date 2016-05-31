@@ -253,7 +253,7 @@ angular.module('templateapp').controller('UserInfoController', function($scope, 
         if (oldPass_val!=oldPass_r_val) {
             validated = false;
         }
-        $('#valid_div').text(validated ? "pass" : "fail");
+        $('#valid_div').text(validated ? "Пароли совпадают" : "Пароли не совпадают");
         return validated;
     }
 

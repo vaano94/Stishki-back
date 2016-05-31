@@ -4,6 +4,8 @@
 angular.module('templateapp').controller('dataFetchController', function($scope, $http, $interval, LoginService, LikeService, ngDialog) {
     var poems = {};
     $scope.PoemData = {};
+    $scope.PoemDataOne = [];
+    $scope.PoemDataTwo = [];
     $scope.SubData = {};
     $scope.PopularData = {};
     $scope.SearchData= {};
@@ -162,6 +164,12 @@ angular.module('templateapp').controller('dataFetchController', function($scope,
 
                         }
                     }
+                    /*if (i%2==0) {
+                        $scope.PoemDataTwo.push(poems[i]);
+                    }
+                    if (i%2!=0) {
+                        $scope.PoemDataOne.push(poems[i]);
+                    }*/
                 }
             });
     };
@@ -207,13 +215,35 @@ angular.module('templateapp').controller('dataFetchController', function($scope,
             console.log('Return after promise: ' + d);
             if (d == "increment") {
                 // Вот вместо этого апдейт scope.PoemData
-                $scope.PoemData[index].likes += 1;
+                if ($("#new_a").hasClass("active")) {
+                    $scope.PoemData[index].likes += 1;
+                }
+                if ($("#pop_a").hasClass("active")) {
+                    $scope.PopularData[index].likes += 1;
+                }
+                if ($("#sub_a").hasClass("active")) {
+                    $scope.SubData[index].likes += 1;
+                }
+                if ($("search_a").hasClass("active")) {
+                    $scope.SearchData[index].likes += 1;
+                }
                 //заблочить поле дизлайка
                 dislikeid= "#dislike"+id;
                 $(dislikeid).prop( "disabled", true );
             }
             else if (d == "decrement") {
-                $scope.PoemData[index].likes -= 1;
+                if ($("#new_a").hasClass("active")) {
+                    $scope.PoemData[index].likes -= 1;
+                }
+                if ($("#pop_a").hasClass("active")) {
+                    $scope.PopularData[index].likes -= 1;
+                }
+                if ($("#sub_a").hasClass("active")) {
+                    $scope.SubData[index].likes -= 1;
+                }
+                if ($("search_a").hasClass("active")) {
+                    $scope.SearchData[index].likes -= 1;
+                }
 
             }
             else if (d == "BAD") {
@@ -230,10 +260,32 @@ angular.module('templateapp').controller('dataFetchController', function($scope,
             console.log('Return after promise: ' + d);
             if (d == "increment") {
                 // Вот вместо этого апдейт scope.PoemData
-                $scope.PoemData[index].dislikes += 1;
+                if ($("#new_a").hasClass("active")) {
+                    $scope.PoemData[index].dislikes += 1;
+                }
+                if ($("#pop_a").hasClass("active")) {
+                    $scope.PopularData[index].dislikes += 1;
+                }
+                if ($("#sub_a").hasClass("active")) {
+                    $scope.SubData[index].dislikes += 1;
+                }
+                if ($("search_a").hasClass("active")) {
+                    $scope.SearchData[index].dislikes += 1;
+                }
             }
             else if (d == "decrement") {
-                $scope.PoemData[index].dislikes -= 1;
+                if ($("#new_a").hasClass("active")) {
+                    $scope.PoemData[index].dislikes -= 1;
+                }
+                if ($("#pop_a").hasClass("active")) {
+                    $scope.PopularData[index].dislikes -= 1;
+                }
+                if ($("#sub_a").hasClass("active")) {
+                    $scope.SubData[index].dislikes -= 1;
+                }
+                if ($("search_a").hasClass("active")) {
+                    $scope.SearchData[index].dislikes -= 1;
+                }
             }
             else if (d == "BAD") {
                 console.log(d);
@@ -256,9 +308,10 @@ angular.module('templateapp').directive("scroll", function ($window, $http) {
             //console.log("element summary offset is: " + $('#poem115').outerHeight(true)*35);
 
             // get the first element id of $scope.PoemData
-            firstInPoems = $scope.PoemData[0].id;
+
 
             if ($("#new_a").hasClass("active")) {
+                firstInPoems = $scope.PoemData[0].id;
                 console.log("NEW_A ACTIVE");
                 if (this.pageYOffset + $("#poem" + firstInPoems).outerHeight(true) * 5 >= $("#poem" + firstInPoems).outerHeight(true) * offset) {
                     offset += 40;
@@ -282,10 +335,14 @@ angular.module('templateapp').directive("scroll", function ($window, $http) {
                 console.log("POP_A ACTIVE");
                 firstInPopular = $scope.PopularData[0].id;
                 //console.log(firstInPopular);
-                console.log("Needed offset " + $('#pop'+firstInPopular).outerHeight(true)*pop_offs);
-                actualOffset = this.pageYOffset + $("#pop" + firstInPopular).outerHeight(true) * 9;
+                height = $("#pop" + firstInPopular).outerHeight(true)
+                if (height>270) {
+                    height = 270;
+                }
+                console.log("Needed offset " + height*pop_offs);
+                actualOffset = this.pageYOffset + height * 9;
                 console.log("Actual offset " + actualOffset );
-                if (this.pageYOffset + $("#pop" + firstInPopular).outerHeight(true) * 9 >= $("#pop" + firstInPopular).outerHeight(true) * pop_offs) {
+                if (this.pageYOffset + height * 9 >= height * pop_offs) {
                     $http.post("http://localhost:8080/rest/poem/popular", pop_offs)
                         .then(function (response) {
                             respond = JSON.stringify(response.data);
@@ -305,6 +362,10 @@ angular.module('templateapp').directive("scroll", function ($window, $http) {
             if ($("#sub_a").hasClass("active")) {
                 console.log("SUB_A ACTIVE");
                 firstInSub = $scope.SubData[0].id;
+                height = $("#pop" + firstInSub).outerHeight(true)
+                if (height>270) {
+                    height = 270;
+                }
                 if (this.pageYOffset + $("#sub" + firstInSub).outerHeight(true) * 5 >= $("#sub" + firstInSub).outerHeight(true) * sub_offs) {
                     sub_offs += 40;
                     token = localStorage['token'] || "";

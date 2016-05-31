@@ -40,7 +40,7 @@ public class Poem {
     @Fetch(FetchMode.SELECT)
     private List<Long> dislikes = new ArrayList<Long>();
 
-    @Column(length = 800)
+    @Column
     private String content;
 
     @Column

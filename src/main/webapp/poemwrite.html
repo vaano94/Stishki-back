@@ -1,50 +1,11 @@
-<!--<html ng-app="writepage">
-<head>
-    &lt;!&ndash;Import Google Icon Font&ndash;&gt;
-    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab&subset=cyrillic,cyrillic-ext,latin' rel='stylesheet' type='text/css'>
-    &lt;!&ndash;Import materialize.css&ndash;&gt;
-    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
-    &lt;!&ndash; Icons !&ndash;&gt;
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-    <link type="text/css" rel="stylesheet" href="css/ngDialog.css">
-    <link type="text/css" rel="stylesheet" href="css/ngDialog-theme-default.css">
-
-        <link type="text/css" rel="stylesheet" href="css/poemcss.css">
-
-    &lt;!&ndash;Let browser know website is optimized for mobile&ndash;&gt;
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta charset="UTF-8">
-	&lt;!&ndash; Import Jquery !&ndash;&gt;
- 	<script src="jquery-2.2.0.min.js"></script>
-	&lt;!&ndash; Angular library !&ndash;&gt;
-	<script src="js/angular.min.js"></script>
-	&lt;!&ndash; Modal service library !&ndash;&gt;
-	<script src="js/ngDialog.js"></script>
-
-	&lt;!&ndash; Other controllers !&ndash;&gt;
-	<script src="js/poempage.js"></script>
-	<script src="js/frontpage.js"></script>
-	<script src="js/uppernavigationcontroller.js"></script>
-	<script src="js/poemchoosecontroller.js"></script>
-	<script src="js/poemdescriptioncontroller.js"></script>
-	<script src="js/poempage.js"></script>
-	<script type="text/javascript" src="js/materialize.min.js"></script>
-
-
-  </head>
-  <body >
-
-  &lt;!&ndash; Navbar goes here &ndash;&gt;
-   <upper-navigation ng-init="init()" ng-model="hashtags.tags" cb="myCallback(arg1)">
-   </upper-navigation>-->
     <!-- Page Layout here -->
-    <div class="row" ng-controller="PoemFieldController as fieldctrl" ng-init="firstLaunch()">
+    <div ng-controller="PoemFieldController as fieldctrl" ng-init="firstLaunch()">
 
       <!-- Page Layout here -->
     <div class="row main-container">
 
-      <div class="col s12 m2 l2 left hvr-glow scrollable " id="rhyme_scroll"> <!-- Note that "m4 l3" was added -->
+      <div class="col s12 m2 l2 left-poem hvr-glow scrollable " id="rhyme_scroll"> <!-- Note that "m4 l3" was added -->
         
 			<div class="row"><h4 class="center-align">Словарь рифм</h4></div>
 		    <form class="center-align" >
@@ -63,8 +24,8 @@
 
 	<!-- <div class="mydivider"></div> -->
 
-      <div class="col s12 m8 l8 center hvr-glow scrollable" > <!-- Note that "m8 l9" was added -->
-      	<h3>Творчество</h3>
+      <div class="col s12 m8 l8 center-poem hvr-glow scrollable" > <!-- Note that "m8 l9" was added -->
+      	<h3 class="center-align">Творчество</h3>
 	       <form>
 	       <div class="container center-align">
 		       	<div class="input-field">
@@ -97,7 +58,7 @@
 
     <!-- <div class="mydivider"></div> -->
 
-      <div class="col s12 m2 l2 right hvr-glow">
+      <div class="col s12 m2 l2 right-poem hvr-glow">
       	<div class="center-align">
       	<h4>{{type}}</h4>
       	<h5>Список тегов:</h5>

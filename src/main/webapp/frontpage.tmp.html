@@ -22,12 +22,12 @@
     <div class="row" id="new_poems_div" >
         <div ng-repeat="x in PoemData track by $index" class="container">
 
-            <div class="col s10" id="poem{{x.id}}">
+            <div class="col s8 offset-s2" id="poem{{x.id}}">
                 <div class="card blue-grey darken-1 yellow lighten-4">
                     <!-- Card content !-->
-                    <div class="card-content white-text yellow lighten-4">
+                    <div class="card-content white-text yellow lighten-4 ">
                         <span class="card-title blue-grey-text text-darken-3">{{x.author}}</span>
-                        <p ng-repeat="line in x.content" class="blue-grey-text text-darken-3"> {{line}} </p>
+                        <p ng-repeat="line in x.content" class="blue-grey-text text-darken-3" style="margin-left: 3em"> {{line}} </p>
                     </div>
                     <!-- Card action !-->
                     <div class="card-action yellow lighten-4">
@@ -51,7 +51,7 @@
      <div class="row" id="popular_poems_div" >
         <div ng-repeat="x in PopularData track by $index" class="container">
 
-            <div class="col s10" id="pop{{x.id}}">
+            <div class="col s8 offset-s2" id="pop{{x.id}}">
                 <div class="card blue-grey darken-1 yellow lighten-4">
                     <!-- Card content !-->
                     <div class="card-content white-text yellow lighten-4">
@@ -92,7 +92,7 @@
         </div>
 
         <div ng-repeat="x in SearchData track by $index" class="container">
-            <div class="col s10 offset-s1" id="search{{x.id}}">
+            <div class="col s8 offset-s2" id="search{{x.id}}">
                 <div class="card blue-grey darken-1 yellow lighten-4">
                     <!-- Card content !-->
                     <div class="card-content white-text yellow lighten-4">
@@ -118,10 +118,10 @@
     </div>
 
 
-            <div class="row" id="subs_poems_div">
+            <div class="row" id="subs_poem_div">
                 <div ng-repeat="x in SubData track by $index" class="container">
 
-                    <div class="col s10" id="sub{{x.id}}">
+                    <div class="col s8 offset-s2" id="sub{{x.id}}">
                         <div class="card blue-grey darken-1 yellow lighten-4">
                             <!-- Card content !-->
                             <div class="card-content white-text yellow lighten-4">

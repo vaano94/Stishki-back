@@ -1,16 +1,18 @@
 /**
  * Created by Ivan on 5/25/2016.
  */
-angular.module('templateapp').controller('DraftController', function($scope, $http, $interval, PoemDataService,DraftDelService,DraftExchangeService, ngDialog) {
+angular.module('templateapp').controller('DraftController', function($scope, $http, $interval, $route, PoemDataService,DraftDelService,DraftExchangeService, ngDialog) {
     $scope.DraftData = [];
     $scope.DisplayedDraft = {};
     $scope.DisplayedDraft.content="";
     $scope.toDelete = 0;
     $scope.displayedGenre = "";
+    $scope.draftDisplayed = false;
     this.showChgBtn = false;
 
     $scope.getDrafts = function() {
         DraftDelService.downloadDraftData($scope.renderDrafts);
+        $scope.draftDisplayed = true;
     };
     $scope.renderDrafts = function(param){
         $scope.DraftData = param;
@@ -25,15 +27,11 @@ angular.module('templateapp').controller('DraftController', function($scope, $ht
         elementId = event;
         $scope.DisplayedDraft = $scope.DraftData[elementId];
         $scope.DisplayedDraft.text = "";
+        $scope.draftDisplayed = true;
 
         PoemDataService.setPoemType($scope.DraftData[elementId].genre);
         //$scope.DisplayedDraft.genre = PoemDataService.getPoemType();
         $scope.displayedGenre = PoemDataService.getPoemType();
-        /*for (i=0;i<$scope.DisplayedDraft.content.length;i++){
-            $scope.DisplayedDraft.text += $scope.DisplayedDraft.content[i] + '\n';
-        }
-        $scope.DisplayedDraft.text = stringContainingNewLines.replace(/(\r\n|\n|\r)/gm, "<br>");
-        //$scope.DisplayedDraft.hashtags = $scope.DraftData[elementId].hashtags;*/
         this.showChgBtn = true;
     }
 
@@ -66,6 +64,9 @@ angular.module('templateapp').controller('DraftController', function($scope, $ht
                     DraftDelService.setDraftData($scope.DraftData);
                     Materialize.toast("Черновик был успешно удален!", 3500);
                     $scope.closeDialog();
+                    $scope.DisplayedDraft = {};
+                    $scope.draftDisplayed = false;
+                    $route.reload();
                 }
                 if (response.data.result=="BAD") {
                     Materialize.toast("Не удалось удалить черновик", 3500);

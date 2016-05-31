@@ -3,6 +3,17 @@ html, body {
     margin:0;
 }
 
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+    margin-bottom: -1.625em;
+}
+
 .main-container {
     height:100%;
     display:flex;
@@ -23,19 +34,19 @@ html, body {
     margin-right:2px;
 }
 
-.left {
+.left-poem {
     background-color:#fff9c4;
     /*width:160px;
     flex:1;*/
     margin-right:2px;
 }
-.center {
+.center-poem {
     background-color:#fff9c4;
     /*width:200px;
     flex:2;*/
     margin-right:2px;
 }
-.right {
+.right-poem {
     background-color: #fff9c4;
     /*-webkit-flex: 1;
     flex:1;
@@ -72,6 +83,11 @@ html, body {
     top:2%;
     bottom:2%;
     border-left:1px solid #e2dde3;
+}
+
+.centered {
+    display: table;
+    margin: auto;
 }
 
 /* Underline Reveal */
